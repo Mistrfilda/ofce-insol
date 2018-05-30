@@ -15,12 +15,10 @@ use Nette\Utils\ArrayHash;
 
 class LoginFormControl extends BaseForm
 {
-	private $userModel;
 
-	public function __construct(UserModel $userModel)
+	public function __construct()
 	{
 		parent::__construct();
-		$this->userModel = $userModel;
 	}
 
 	public function render()
