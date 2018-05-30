@@ -12,7 +12,7 @@ use Nette\Security\Passwords;
 
 class UserModel extends BaseModel
 {
-	public function createUser($name, $password)
+	public function createUser(string $name, string $password) : void
 	{
 		$this->database->query('INSERT into users', [
 			'users_login' => 'admin',
@@ -20,6 +20,12 @@ class UserModel extends BaseModel
 		]);
 	}
 
+
+	/**
+	 * @param int $id
+	 * @return array
+	 * @throws AppException
+	 */
 	public function getUserById(int $id) : array
 	{
 		$data = $this->database->query('SELECT * from users where users_id = %i', $id)->fetch();
@@ -30,6 +36,12 @@ class UserModel extends BaseModel
 		return (array) $data;
 	}
 
+
+	/**
+	 * @param string $login
+	 * @return array
+	 * @throws AppException
+	 */
 	public function getUserByLogin(string $login) : array
 	{
 		$data = $this->database->query('SELECT * from users where users_login = %s', $login)->fetch();
@@ -40,6 +52,10 @@ class UserModel extends BaseModel
 		return (array) $data;
 	}
 
+
+	/**
+	 * @return array
+	 */
 	public function getPairs() : array
 	{
 		return $this->database->query('SELECT * from users')->fetchPairs('users_id', 'users_name');

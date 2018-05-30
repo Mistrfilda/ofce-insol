@@ -14,7 +14,7 @@ abstract class BaseModel
 	/** @var Connection $database */
 	protected $database;
 
-	public function injectDatabase(Connection $database)
+	public function injectDatabase(Connection $database) : void
 	{
 		$this->database = $database;
 	}

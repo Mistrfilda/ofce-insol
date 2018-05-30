@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
 <ruleset name="insol">
     <exclude-pattern>*/bootstrap.php</exclude-pattern>
-    <exclude-pattern>*/bootstrap.php</exclude-pattern>
+    <exclude-pattern>*/RouterFactory.php</exclude-pattern>
+    <exclude-pattern>*/ErrorPresenter.php</exclude-pattern>
     <config name="installed_paths" value="../../slevomat/coding-standard"/>
     <rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes">
         <properties>

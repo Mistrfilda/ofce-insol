@@ -17,12 +17,12 @@ abstract class BaseForm extends Control
 	/** @var User $user */
 	protected $user;
 
-	public function injectUser(User $user)
+	public function injectUser(User $user) : void
 	{
 		$this->user = $user;
 	}
 
-	protected function createForm()
+	protected function createForm() : Form
 	{
 		$form = new Form();
 		$form->setRenderer(new BootstrapRenderer());

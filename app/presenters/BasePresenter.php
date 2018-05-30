@@ -15,12 +15,12 @@ class BasePresenter extends Presenter
 	/** @var UserModel $userModel */
 	protected $userModel;
 
-	public function injectUserModel(UserModel $userModel)
+	public function injectUserModel(UserModel $userModel) : void
 	{
 		$this->userModel = $userModel;
 	}
 
-	protected function startup()
+	protected function startup() : void
 	{
 		parent::startup();
 		if ($this->getUser()->isLoggedIn()) {
@@ -28,7 +28,7 @@ class BasePresenter extends Presenter
 		}
 	}
 
-	public function handleLogout()
+	public function handleLogout() : void
 	{
 		$this->getUser()->logout();
 		$this->getPresenter()->redirect('Login:default');

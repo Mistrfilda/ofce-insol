@@ -8,7 +8,7 @@ namespace App\Presenters;
 
 class SecurePresenter extends BasePresenter
 {
-	protected function startup()
+	protected function startup() : void
 	{
 		parent::startup();
 		if (!$this->getUser()->isLoggedIn()) {

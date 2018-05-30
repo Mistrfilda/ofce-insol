@@ -16,6 +16,9 @@ use Nette\Utils\Strings;
 
 class Authenticator implements IAuthenticator
 {
+	/**
+	 * @var UserModel
+	 */
 	private $userModel;
 
 	public function __construct(UserModel $userModel)
@@ -23,6 +26,13 @@ class Authenticator implements IAuthenticator
 		$this->userModel = $userModel;
 	}
 
+
+	/**
+	 * @param array $credentials
+	 * @return Identity
+	 * @throws AppException
+	 * @throws AuthenticationException
+	 */
 	public function authenticate(array $credentials)
 	{
 		try {

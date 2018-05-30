@@ -21,7 +21,7 @@ class LoginFormControl extends BaseForm
 		parent::__construct();
 	}
 
-	public function render()
+	public function render() : void
 	{
 		$this->getTemplate()->setFile(str_replace('.php', '.latte', __FILE__));
 		$this->getTemplate()->render();
@@ -37,7 +37,7 @@ class LoginFormControl extends BaseForm
 		return $form;
 	}
 
-	public function loginFormSucceed(Form $form, ArrayHash $values)
+	public function loginFormSucceed(Form $form, ArrayHash $values) : void
 	{
 		try {
 			$this->user->login($values['login'], $values['password']);
