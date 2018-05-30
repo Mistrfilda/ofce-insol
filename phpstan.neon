@@ -1,0 +1,10 @@
+parameters:
+	tmpDir: %rootDir%/../../../temp
+	autoload_directories:
+		- %rootDir%/../../../app
+	excludes_analyse:
+		- %rootDir%/../../../app/presenters/Error4xxPresenter.php
+
+includes:
+	- vendor/phpstan/phpstan-nette/extension.neon
+	- vendor/phpstan/phpstan-nette/rules.neon

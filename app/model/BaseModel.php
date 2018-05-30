@@ -9,7 +9,7 @@ use Dibi\Connection;
 
 abstract class BaseModel
 {
-	/** @var $database Connection */
+	/** @var Connection $database */
 	protected $database;
 
 	public function injectDatabase(Connection $database)
