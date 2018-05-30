@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "906c1f426c9dd1d21af11af9ed4f34ea",
+    "content-hash": "f35ad480a44d966c6833f5f988b9032d",
     "packages": [
         {
             "name": "contributte/console",
@@ -1625,6 +1625,50 @@
                 "shim"
             ],
             "time": "2018-04-26T10:06:28+00:00"
+        },
+        {
+            "name": "tomaj/nette-bootstrap-form",
+            "version": "1.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tomaj/nette-bootstrap-form.git",
+                "reference": "3183ceb303e63cbc505889b8981f85c9e7540845"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tomaj/nette-bootstrap-form/zipball/3183ceb303e63cbc505889b8981f85c9e7540845",
+                "reference": "3183ceb303e63cbc505889b8981f85c9e7540845",
+                "shasum": ""
+            },
+            "require": {
+                "nette/forms": "~2.3",
+                "php": ">= 5.3.7"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Tomas Majer",
+                    "email": "tomasmajer@gmail.com",
+                    "homepage": "http://www.tomaj.sk/"
+                }
+            ],
+            "description": "Nette bootstrap form renderer",
+            "keywords": [
+                "bootstrap",
+                "form",
+                "nette",
+                "renderer"
+            ],
+            "time": "2017-08-28T15:29:19+00:00"
         },
         {
             "name": "tracy/tracy",

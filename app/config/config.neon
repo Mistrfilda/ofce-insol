@@ -17,9 +17,11 @@ console:
 	lazy: false
 
 decorator:
-	App\Model\Model:
+	App\Model\BaseModel:
 		inject: on
 	App\Components\Forms\BaseForm:
+		inject: on
+	App\Presenters\BasePresenter:
 		inject: on
 
 migrations:
@@ -37,3 +39,6 @@ services:
 	- App\Model\ImportModel
 	- App\Model\PersonModel
 	- App\Model\UserModel
+
+	##FORMS
+	- App\Components\Forms\Login\LoginFormControlFactory

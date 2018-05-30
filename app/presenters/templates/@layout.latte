@@ -25,33 +25,76 @@
 </head>
 
 <body>
-	<div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
-
-	{include content}
-
-	<script src="{$basePath}/assets/js/jquery-3.1.1.min.js"></script>
-	<script src="{$basePath}/assets/js/bootstrap.min.js"></script>
-	<script src="{$basePath}/assets/js/live-form-validation.js"></script>
-	<script src="{$basePath}/assets/js/nette.ajax.js"></script>
-	<script src="{$basePath}/assets/js/moment.min.js"></script>
-
-	<script src="{$basePath}/assets/bower_components/happy/dist/happy.js"></script>
-	<script src="{$basePath}/assets/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.js"></script>
-	<script src="{$basePath}/assets/bower_components/jquery-ui-sortable/jquery-ui-sortable.js"></script>
-	<script src="{$basePath}/assets/bower_components/ublaboo-datagrid/assets/dist/datagrid.js"></script>
-	<!-- It is recommended to include this JS file with just a few bits. It refreshes URL on non ajax request -->
-	<script src="{$basePath}/assets/bower_components/ublaboo-datagrid/assets/dist/datagrid-instant-url-refresh.js"></script>
-	<!-- Use this little extension for ajax spinners -->
-	<script src="{$basePath}/assets/bower_components/ublaboo-datagrid/assets/dist/datagrid-spinners.js"></script>
-	<!-- Include bootstrap-select.js when using FilterMultiSelect (silviomoreto.github.io/bootstrap-select) -->
-	<script src="{$basePath}/assets/bower_components/bootstrap-select/dist/js/bootstrap-select.js"></script>
-	<script src="{$basePath}/assets/js/bootstrap-datetimepicker.min.js"></script>
-	<script src="{$basePath}/assets/js/bootstrap-notify.min.js"></script>
-
+{foreach $flashes as $flash}
 	<script>
-        $.nette.init();
-		$('.datetime-picker').datetimepicker();
-        $('select').selectpicker({});
+        $.notify({
+            message: {$flash->message}
+        }, {
+            // settings
+            type: {$flash->type}
+        });
 	</script>
+{/foreach}
+
+{if $user->isLoggedIn()}
+	<nav class="navbar navbar-default" role="navigation">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" n:href="Homepage:default">Home</a>
+		</div>
+
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse navbar-ex1-collapse">
+			<ul class="nav navbar-nav">
+				<li class="active"><a href="#">Link</a></li>
+				<li><a href="#">Link</a></li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i><b class="caret"></b></a>
+					<ul class="dropdown-menu">
+						<li class="user-menu">Prihlasen jako <b>{$appUser['users_login']}</b></li>
+						<li><a n:href="logout!">Odhlasit se</a></li>
+					</ul>
+				</li>
+			</ul>
+		</div><!-- /.navbar-collapse -->
+	</nav>
+{/if}
+
+<div class="container main-content">
+	{include content}
+</div>
+
+<script src="{$basePath}/assets/js/jquery-3.1.1.min.js"></script>
+<script src="{$basePath}/assets/js/bootstrap.min.js"></script>
+<script src="{$basePath}/assets/js/live-form-validation.js"></script>
+<script src="{$basePath}/assets/js/nette.ajax.js"></script>
+<script src="{$basePath}/assets/js/moment.min.js"></script>
+
+<script src="{$basePath}/assets/bower_components/happy/dist/happy.js"></script>
+<script src="{$basePath}/assets/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.js"></script>
+<script src="{$basePath}/assets/bower_components/jquery-ui-sortable/jquery-ui-sortable.js"></script>
+<script src="{$basePath}/assets/bower_components/ublaboo-datagrid/assets/dist/datagrid.js"></script>
+<!-- It is recommended to include this JS file with just a few bits. It refreshes URL on non ajax request -->
+<script src="{$basePath}/assets/bower_components/ublaboo-datagrid/assets/dist/datagrid-instant-url-refresh.js"></script>
+<!-- Use this little extension for ajax spinners -->
+<script src="{$basePath}/assets/bower_components/ublaboo-datagrid/assets/dist/datagrid-spinners.js"></script>
+<!-- Include bootstrap-select.js when using FilterMultiSelect (silviomoreto.github.io/bootstrap-select) -->
+<script src="{$basePath}/assets/bower_components/bootstrap-select/dist/js/bootstrap-select.js"></script>
+<script src="{$basePath}/assets/js/bootstrap-datetimepicker.min.js"></script>
+<script src="{$basePath}/assets/js/bootstrap-notify.min.js"></script>
+
+<script>
+    $.nette.init();
+    $('.datetime-picker').datetimepicker();
+    $('select').selectpicker({});
+</script>
 </body>
 </html>
