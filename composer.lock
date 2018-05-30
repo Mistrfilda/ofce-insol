@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "1886efac1fb7157fb5743e8cc1b0663a",
+    "content-hash": "906c1f426c9dd1d21af11af9ed4f34ea",
     "packages": [
         {
             "name": "contributte/console",
@@ -1352,6 +1352,48 @@
             ],
             "description": "Database migrations runner",
             "time": "2018-01-25T10:11:16+00:00"
+        },
+        {
+            "name": "parsecsv/php-parsecsv",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/parsecsv/parsecsv-for-php.git",
+                "reference": "9c14bc2f30c55687588d794ad2b145bf0ac56196"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/parsecsv/parsecsv-for-php/zipball/9c14bc2f30c55687588d794ad2b145bf0ac56196",
+                "reference": "9c14bc2f30c55687588d794ad2b145bf0ac56196",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.1.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ParseCsv\\": "src",
+                    "ParseCsv\\extensions\\": "src\\extensions",
+                    "ParseCsv\\tests\\": "tests"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jim Myhrberg",
+                    "email": "contact@jimeh.me"
+                },
+                {
+                    "name": "William Knauss",
+                    "email": "will.knauss@gmail.com"
+                }
+            ],
+            "description": "CSV data parser for PHP",
+            "time": "2018-03-03T11:01:45+00:00"
         },
         {
             "name": "psr/log",

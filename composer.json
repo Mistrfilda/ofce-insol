@@ -22,7 +22,8 @@
 		"tracy/tracy": "^2.4",
 		"dibi/dibi": "^4.0",
 		"nextras/migrations": "dev-master",
-		"contributte/console": "^0.4.0"
+		"contributte/console": "^0.4.0",
+		"parsecsv/php-parsecsv": "^1.0"
 	},
 	"require-dev": {
 		"nette/tester": "^2.0",
