@@ -16,6 +16,12 @@ console:
 	autoExit: true
 	lazy: false
 
+decorator:
+	App\Model\Model:
+		inject: on
+	App\Components\Forms\BaseForm:
+		inject: on
+
 migrations:
     dir: %appDir%/../migrations
     driver: mysql
@@ -26,4 +32,8 @@ session:
 
 
 services:
+	authenticator: App\Auth\Authenticator
 	router: App\RouterFactory::createRouter
+	- App\Model\ImportModel
+	- App\Model\PersonModel
+	- App\Model\UserModel
