@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 
 namespace App\Auth;
 
@@ -19,6 +21,7 @@ class Authenticator implements IAuthenticator
 
 	public function authenticate(array $credentials)
 	{
+		$this->userModel;
 		dump($credentials);
 		die();
 		//return new Identity($user->getId(), $user->getId());

@@ -14,5 +14,6 @@ before_script:
 
 script:
   - vendor/bin/phpstan analyse app -c phpstan.neon  -l 7
+  - vendor/bin/phpcs --standard=ruleset.xml --extensions=php --encoding=utf-8 --tab-width=4 -sp app
 
 after_script:
