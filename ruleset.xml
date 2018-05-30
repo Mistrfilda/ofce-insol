@@ -4,6 +4,11 @@
     <exclude-pattern>*/RouterFactory.php</exclude-pattern>
     <exclude-pattern>*/ErrorPresenter.php</exclude-pattern>
     <config name="installed_paths" value="../../slevomat/coding-standard"/>
+    <rule ref="SlevomatCodingStandard.TypeHints.TypeHintDeclaration">
+        <properties>
+            <property name="enableObjectTypeHint" type="bool" value="1"/>
+        </properties>
+    </rule>
     <rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes">
         <properties>
             <property name="newlinesCountBetweenOpenTagAndDeclare" value="2"/>

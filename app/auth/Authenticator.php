@@ -28,12 +28,11 @@ class Authenticator implements IAuthenticator
 
 
 	/**
-	 * @param array $credentials
-	 * @return Identity
+	 * @param array|array[] $credentials
 	 * @throws AppException
 	 * @throws AuthenticationException
 	 */
-	public function authenticate(array $credentials)
+	public function authenticate(array $credentials) : Identity
 	{
 		try {
 			$user = $this->userModel->getUserByLogin(Strings::lower($credentials[0]));

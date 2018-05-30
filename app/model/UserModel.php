@@ -23,7 +23,7 @@ class UserModel extends BaseModel
 
 	/**
 	 * @param int $id
-	 * @return array
+	 * @return array|array[]
 	 * @throws AppException
 	 */
 	public function getUserById(int $id) : array
@@ -39,7 +39,7 @@ class UserModel extends BaseModel
 
 	/**
 	 * @param string $login
-	 * @return array
+	 * @return array|array[]
 	 * @throws AppException
 	 */
 	public function getUserByLogin(string $login) : array
@@ -54,7 +54,7 @@ class UserModel extends BaseModel
 
 
 	/**
-	 * @return array
+	 * @return array|array[]
 	 */
 	public function getPairs() : array
 	{
