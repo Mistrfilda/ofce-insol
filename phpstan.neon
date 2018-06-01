@@ -4,6 +4,9 @@ parameters:
 		- %rootDir%/../../../app
 	excludes_analyse:
 		- %rootDir%/../../../app/presenters/Error4xxPresenter.php
+	ignoreErrors:
+		- '#Method Dibi\\Fluent::from\(\) invoked with 1 parameter, at least 2 required.#'
+
 
 includes:
 	- vendor/phpstan/phpstan-nette/extension.neon
