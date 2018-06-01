@@ -42,3 +42,4 @@ services:
 
 	##FORMS
 	- App\Components\Forms\Login\LoginFormControlFactory
+	- App\Components\Forms\ImportPersons\ImportPersonsFormControlFactory

@@ -6,7 +6,7 @@ declare(strict_types = 1);
 namespace App\Presenters;
 
 
-class PersonPresenter extends SecurePresenter
+class PersonsPresenter extends SecurePresenter
 {
 
 }

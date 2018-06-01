@@ -8,4 +8,7 @@ namespace App\Presenters;
 
 class HomepagePresenter extends SecurePresenter
 {
+	public function renderDefault() : void
+	{
+	}
 }

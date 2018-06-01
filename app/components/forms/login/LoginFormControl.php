@@ -7,7 +7,6 @@ namespace App\Components\Forms\Login;
 
 
 use App\Components\Forms\BaseForm;
-use App\Model\UserModel;
 use Nette\Application\UI\Form;
 use Nette\Security\AuthenticationException;
 use Nette\Utils\ArrayHash;
@@ -15,12 +14,6 @@ use Nette\Utils\ArrayHash;
 
 class LoginFormControl extends BaseForm
 {
-
-	public function __construct()
-	{
-		parent::__construct();
-	}
-
 	public function render() : void
 	{
 		$this->getTemplate()->setFile(str_replace('.php', '.latte', __FILE__));
@@ -49,5 +42,4 @@ class LoginFormControl extends BaseForm
 
 		$this->presenter->redirect('Homepage:default');
 	}
-
 }
