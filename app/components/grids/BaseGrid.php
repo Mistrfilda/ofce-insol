@@ -20,7 +20,7 @@ class BaseGrid extends Control
 
 	/**
 	 * @param array|array[] $option
-	 * @return array|array[string]
+	 * @return array|array[]|string[]
 	 */
 	public function addGridSelect(array $option) : array
 	{
