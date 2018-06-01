@@ -16,6 +16,9 @@ class AppException extends \Exception
 	const
 		IMPORT_DATABASE_ERROR = 20;
 
+	const
+		EXPORT_PERSONS_NO_ROWS = 30;
+
 	public function __construct(int $code = 0, string $message = "", ?Throwable $previous = NULL)
 	{
 		parent::__construct($message, $code, $previous);

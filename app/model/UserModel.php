@@ -58,6 +58,6 @@ class UserModel extends BaseModel
 	 */
 	public function getPairs() : array
 	{
-		return $this->database->query('SELECT * from users')->fetchPairs('users_id', 'users_name');
+		return $this->database->query('SELECT * from users')->fetchPairs('users_id', 'users_login');
 	}
 }
