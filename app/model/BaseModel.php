@@ -7,15 +7,20 @@ namespace App\Model;
 
 
 use Dibi\Connection;
+use Dibi\Fluent;
 
 
 abstract class BaseModel
 {
-	/** @var Connection $database */
+	/** @var Connection */
 	protected $database;
+
+	/** @var  Fluent */
+	protected $databaseFluent;
 
 	public function injectDatabase(Connection $database) : void
 	{
 		$this->database = $database;
+		$this->databaseFluent = new Fluent($database);
 	}
 }
