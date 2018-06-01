@@ -25,7 +25,7 @@
 		"contributte/console": "^0.4.0",
 		"parsecsv/php-parsecsv": "^1.0",
 		"tomaj/nette-bootstrap-form": "^1.3",
-		"ublaboo/datagrid": "^5.6"
+		"ublaboo/datagrid": "dev-master"
 	},
 	"require-dev": {
 		"nette/tester": "^2.0",

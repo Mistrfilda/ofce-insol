@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "8f203a22c0ba48f1bb4298591bd00ef9",
+    "content-hash": "e87d37f99068b29737ded0e879366707",
     "packages": [
         {
             "name": "contributte/console",
@@ -2025,16 +2025,16 @@
         },
         {
             "name": "ublaboo/datagrid",
-            "version": "v5.6.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ublaboo/datagrid.git",
-                "reference": "9cab60969ecd979f6ce722c1a460d415f48a8474"
+                "reference": "ad7e7e3dba7f8809ac9922fd650f3c180534f423"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ublaboo/datagrid/zipball/9cab60969ecd979f6ce722c1a460d415f48a8474",
-                "reference": "9cab60969ecd979f6ce722c1a460d415f48a8474",
+                "url": "https://api.github.com/repos/ublaboo/datagrid/zipball/ad7e7e3dba7f8809ac9922fd650f3c180534f423",
+                "reference": "ad7e7e3dba7f8809ac9922fd650f3c180534f423",
                 "shasum": ""
             },
             "require": {
@@ -2042,8 +2042,8 @@
                 "nette/forms": "^2.3",
                 "nette/utils": ">=2.4.0",
                 "php": "^5.6|^7.0",
-                "symfony/property-access": "^3.0.0 || ^4.0.0",
-                "ublaboo/responses": "~1.0.0 || ~2.0.0"
+                "symfony/property-access": "~3.0",
+                "ublaboo/responses": "~1.0.0|~2.0.0"
             },
             "require-dev": {
                 "dibi/dibi": "^3.0",
@@ -2078,7 +2078,7 @@
                 "grid",
                 "nette"
             ],
-            "time": "2018-05-21T14:14:12+00:00"
+            "time": "2018-05-01T21:25:30+00:00"
         },
         {
             "name": "ublaboo/responses",
@@ -2646,7 +2646,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "nextras/migrations": 20
+        "nextras/migrations": 20,
+        "ublaboo/datagrid": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
