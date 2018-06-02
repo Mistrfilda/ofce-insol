@@ -46,6 +46,9 @@ class ExportPersonsGrid extends BaseGrid
 
 		$grid->addColumnDateTime('exports_time', 'Cas')->setFormat('d. m. Y H:i:s')->setFilterDate();
 		$grid->addColumnText('exports_lines', 'Pocet osob k exportu');
+		$grid->addAction('exportDetail', '', ':Export:exportDetail', ['id' => 'exports_id'])
+			->setIcon('arrow-right');
+
 		$grid->setAutoSubmit(FALSE);
 		$grid->setOuterFilterRendering();
 		return $grid;

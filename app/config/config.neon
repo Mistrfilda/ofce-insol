@@ -39,10 +39,17 @@ services:
 	- App\Model\ImportModel
 	- App\Model\PersonModel
 	- App\Model\UserModel
+	- App\Model\ExportModel
+
+	##LIB
+	- App\Lib\DatetimeProvider
 
 	##FORMS
 	- App\Components\Forms\Login\LoginFormControlFactory
 	- App\Components\Forms\ImportPersons\ImportPersonsFormControlFactory
+	- App\Components\Forms\ExportPersons\ExportPersonsFormControlFactory
 
 	##GRID
 	- App\Components\Grids\Persons\PersonsGridFactory
+	- App\Components\Grids\ExportPersons\ExportPersonsGridFactory
+	- App\Components\Grids\ExportPersonsDetail\ExportPersonsDetailGridFactory

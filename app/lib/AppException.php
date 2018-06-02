@@ -17,7 +17,8 @@ class AppException extends \Exception
 		IMPORT_DATABASE_ERROR = 20;
 
 	const
-		EXPORT_PERSONS_NO_ROWS = 30;
+		EXPORT_UNKNOWN_EXPORT = 30,
+		EXPORT_PERSONS_NO_ROWS = 31;
 
 	public function __construct(int $code = 0, string $message = "", ?Throwable $previous = NULL)
 	{
