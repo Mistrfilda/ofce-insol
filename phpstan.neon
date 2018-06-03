@@ -6,6 +6,7 @@ parameters:
 		- %rootDir%/../../../app/presenters/Error4xxPresenter.php
 	ignoreErrors:
 		- '#Method Dibi\\Fluent::from\(\) invoked with 1 parameter, at least 2 required.#'
+		- '#Call to an undefined method SoapClient::getIsirWsCuzkData\(\).#'
 
 
 includes:
