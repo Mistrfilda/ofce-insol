@@ -48,6 +48,7 @@ services:
 	- App\Components\Forms\Login\LoginFormControlFactory
 	- App\Components\Forms\ImportPersons\ImportPersonsFormControlFactory
 	- App\Components\Forms\ExportPersons\ExportPersonsFormControlFactory
+	- App\Components\Forms\ImportPersonsInvoices\ImportPersonInvoicesFormControlFactory
 
 	##GRID
 	- App\Components\Grids\Persons\PersonsGridFactory

@@ -9,6 +9,7 @@ namespace App\Model;
 use App\Lib\DatetimeProvider;
 use Dibi\Connection;
 use Dibi\Fluent;
+use ParseCsv\Csv;
 
 
 abstract class BaseModel
@@ -31,5 +32,13 @@ abstract class BaseModel
 	public function injectDatetimeProvider(DatetimeProvider $datetimeProvider) : void
 	{
 		$this->datetimeProvider = $datetimeProvider;
+	}
+
+	public function getCsvParser() : Csv
+	{
+		$csvParser = new Csv();
+		$csvParser->delimiter = ';';
+		$csvParser->encoding('UTF-8');
+		return $csvParser;
 	}
 }

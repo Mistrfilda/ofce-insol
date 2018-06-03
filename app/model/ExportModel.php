@@ -31,7 +31,7 @@ class ExportModel extends BaseModel
 
 	public function getExportsPersonDetailFluentBuilder(int $exportId) : Fluent
 	{
-		return $this->database->select('*')->from('persons')->where('(%or)', $this->buildDetailCondition($exportId));
+		return $this->database->select('*')->from('persons')->leftJoin('invoices')->on('persons_actual_invoice_id = invoices_id')->where('(%or)', $this->buildDetailCondition($exportId));
 	}
 
 
@@ -75,9 +75,7 @@ class ExportModel extends BaseModel
 
 	public function exportPersons(string $fileContents) : int
 	{
-		$csvParser = new Csv();
-		$csvParser->delimiter = ';';
-		$csvParser->encoding('UTF-8');
+		$csvParser = $this->getCsvParser();
 		$csvParser->parse($fileContents);
 		$data = $csvParser->data;
 

@@ -55,7 +55,15 @@ class ExportPersonsDetailGrid extends BaseGrid
 		$grid->addColumnText('persons_year', 'Rok')->setFilterSelect($this->addGridSelect(Helpers::getGridYears(2005, 2020)));
 		$grid->addColumnText('persons_firstname', 'Jmeno');
 		$grid->addColumnText('persons_lastname', 'Primeni/Nazev firmy');
-		$grid->addColumnText('persons_actual_invoice_id', 'Aktualni smlouva');
+		$grid->addColumnText('persons_actual_invoice_id', 'Aktualni smlouva')->setRenderer(function($row) {
+			if ($row['persons_actual_invoice_id'] !== NULL) {
+				return 'ANO';
+			}
+
+			return 'NE';
+		});
+		$grid->addColumnText('invoices_type', 'Typ smlouvy');
+		$grid->addColumnDateTime('invoices_from', 'Smlouva platna od')->setFormat('d. m. Y H:i:s')->setFilterDate();
 		$grid->setAutoSubmit(FALSE);
 		$grid->setOuterFilterRendering(TRUE);
 		$grid->addExportCsvFiltered('Export do csv', 'export_' . date('d-m-Y-H-i-s'));
