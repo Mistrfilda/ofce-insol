@@ -9,6 +9,7 @@ namespace App\Model;
 use App\Lib\AppException;
 use Dibi\DateTime;
 use Dibi\Exception;
+use Nette\Utils\Strings;
 
 
 class ImportModel extends BaseModel
@@ -33,6 +34,8 @@ class ImportModel extends BaseModel
 				foreach ($person as $personKey => $column) {
 					if ($column === '') {
 						$person[$personKey] = NULL;
+					} else {
+						$person[$personKey] = Strings::trim($column);
 					}
 				}
 
@@ -74,21 +77,28 @@ class ImportModel extends BaseModel
 		if (count($data) > 0) {
 			$this->database->begin();
 			foreach ($data as $row) {
-				$person = $this->personModel->getPerson((int) $row['Id osoby']);
+				foreach ($row as $key => $value) {
+					if ($value === "") {
+						throw new AppException(AppException::IMPORT_MISSING_MANDATORY_VALUE);
+					}
+
+					$row[$key] = Strings::trim($value);
+				}
+
 				$invoiceFrom = strtotime($row['Platnost od']);
 				if ($invoiceFrom === FALSE) {
 					throw new AppException(AppException::IMPORT_INVOICES_UNSUPPORTED_DATE);
 				}
 
 				$this->database->query('INSERT into invoices', [
-					'invoices_persons_id' => $person['persons_id'],
+					'invoices_persons_birth_id' => $row['Rodné číslo'],
 					'invoices_from' => new DateTime($invoiceFrom),
 					'invoices_type' => $row['Typ smlouvy'],
 					'invoices_imported_date' => $this->datetimeProvider->getNow()
 				]);
 
 				$invoiceId = $this->database->getInsertId();
-				$this->personModel->updatePersonInvoice($person['persons_id'], $invoiceId);
+				$this->personModel->updatePersonInvoice($row['Rodné číslo'], $invoiceId);
 			}
 			$this->database->commit();
 			return count($data);
