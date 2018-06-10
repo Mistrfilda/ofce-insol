@@ -15,7 +15,7 @@ class UserModel extends BaseModel
 	public function createUser(string $name, string $password) : void
 	{
 		$this->database->query('INSERT into users', [
-			'users_login' => 'admin',
+			'users_login' => $name,
 			'users_password' => Passwords::hash($password)
 		]);
 	}
