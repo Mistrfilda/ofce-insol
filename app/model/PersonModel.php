@@ -51,6 +51,11 @@ class PersonModel extends BaseModel
 	 */
 	public function getPersonInvoices(int $personId) : array
 	{
-		return $this->database->query('SELECT * from invoices where invoices_persons_id = %i order by invoices_id desc', $personId)->fetchAll();
+		return $this->database->query('SELECT * from invoices where invoices_persons_birth_id = %s order by invoices_id desc', $this->getPersonBirthId($personId))->fetchAll();
+	}
+
+	public function getPersonBirthId(int $personId) : ?string
+	{
+		return $this->database->query('SELECT persons_birth_id from persons where persons_id = %i', $personId)->fetchSingle();
 	}
 }

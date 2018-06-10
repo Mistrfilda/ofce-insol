@@ -17,6 +17,18 @@ class ImportModel extends BaseModel
 	/** @var PersonModel */
 	private $personModel;
 
+	/**
+	 * For now hardcoded, possibility in future to set columns from config
+	 * @var array|string[]
+	 */
+	private	$personColumns = ['Rodné číslo', 'Ročník', 'Jméno', 'Příjmení/Název', 'IČ'];
+
+	/**
+	 * For now hardcoded, possibility in future to set columns from config
+	 * @var array|string[]
+	 */
+	private $invoiceColumns = ['Id osoby', 'Jméno osoby', 'Rodné číslo', 'Platnost od', 'Typ smlouvy'];
+
 	public function __construct(PersonModel $personModel)
 	{
 		$this->personModel = $personModel;
@@ -38,6 +50,8 @@ class ImportModel extends BaseModel
 						$person[$personKey] = Strings::trim($column);
 					}
 				}
+
+				$this->validatePersonRow($person);
 
 				$inserts[] = [
 					'persons_birth_id'   => $person['Rodné číslo'],
@@ -85,6 +99,8 @@ class ImportModel extends BaseModel
 					$row[$key] = Strings::trim($value);
 				}
 
+				$this->validateInvoiceRow($row);
+
 				$invoiceFrom = strtotime($row['Platnost od']);
 				if ($invoiceFrom === FALSE) {
 					throw new AppException(AppException::IMPORT_INVOICES_UNSUPPORTED_DATE);
@@ -105,5 +121,39 @@ class ImportModel extends BaseModel
 		}
 
 		return 0;
+	}
+
+
+	/**
+	 * @param array|string[] $row
+	 * @return bool
+	 * @throws AppException
+	 */
+	private function validatePersonRow(array $row) : bool
+	{
+		foreach ($this->personColumns as $column) {
+			if (!array_key_exists($column, $row)) {
+				throw new AppException(AppException::IMPORT_MISSING_MANDATORY_VALUE, $column);
+			}
+		}
+
+		return TRUE;
+	}
+
+
+	/**
+	 * @param array|string[] $row
+	 * @return bool
+	 * @throws AppException
+	 */
+	private function validateInvoiceRow(array $row) : bool
+	{
+		foreach ($this->invoiceColumns as $column) {
+			if (!array_key_exists($column, $row)) {
+				throw new AppException(AppException::IMPORT_MISSING_MANDATORY_VALUE, $column);
+			}
+		}
+
+		return TRUE;
 	}
 }
