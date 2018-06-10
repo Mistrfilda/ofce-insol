@@ -10,7 +10,8 @@ install:
   - composer install --no-interaction --prefer-source
 
 before_script:
-
+  - mysql -u root -e 'CREATE DATABASE ofce-insol;'
+  - php bin/console migrations:reset
 
 script:
   - vendor/bin/phpstan analyse app -c phpstan.neon  -l 7

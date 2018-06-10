@@ -21,7 +21,12 @@ $robotLoader->acceptFiles = '*.php, *.phpt';
 $robotLoader->register();
 
 $configurator->addConfig(__DIR__ . '/../app/config/config.neon');
-$configurator->addConfig(__DIR__ . '/../app/config/config.local.neon');
+$configurator->addConfig(__DIR__ . '/tests.neon');
+
+//just for localhost
+if (is_dir(__DIR__ . '/../app/config/config.local.neon')) {
+	$configurator->addConfig(__DIR__ . '/../app/config/config.local.neon');
+}
 
 $container = $configurator->createContainer();
 
