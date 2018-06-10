@@ -1,2 +1,5 @@
 app/config/config.local.neon
 vendor/*
+
+tests/log/*
+tests/temp/*
