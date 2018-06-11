@@ -114,7 +114,7 @@ class ImportModel extends BaseModel
 				]);
 
 				$invoiceId = $this->database->getInsertId();
-				$this->personModel->updatePersonInvoice($row['Rodné číslo'], $invoiceId);
+				$this->personModel->updatePersonInvoice($row['Rodné číslo'], (int)$row['Id osoby'], $invoiceId);
 			}
 			$this->database->commit();
 			return count($data);
