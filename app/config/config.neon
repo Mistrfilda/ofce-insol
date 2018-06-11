@@ -40,6 +40,7 @@ services:
 	- App\Model\PersonModel
 	- App\Model\UserModel
 	- App\Model\ExportModel
+	- App\Model\InvoiceModel
 
 	##LIB
 	- App\Lib\DatetimeProvider
@@ -54,3 +55,4 @@ services:
 	- App\Components\Grids\Persons\PersonsGridFactory
 	- App\Components\Grids\ExportPersons\ExportPersonsGridFactory
 	- App\Components\Grids\ExportPersonsDetail\ExportPersonsDetailGridFactory
+	- App\Components\Grids\Invoices\InvoicesGridFactory

@@ -31,6 +31,7 @@ class BasePresenter extends Presenter
 	public function handleLogout() : void
 	{
 		$this->getUser()->logout();
+		$this->flashMessage('Byli jste odhlášeni', 'warning');
 		$this->getPresenter()->redirect('Login:default');
 	}
 }
