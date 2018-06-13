@@ -110,7 +110,8 @@ class ImportModel extends BaseModel
 					'invoices_persons_birth_id' => $row['Rodné číslo'],
 					'invoices_from' => new DateTime($invoiceFrom),
 					'invoices_type' => $row['Typ smlouvy'],
-					'invoices_imported_date' => $this->datetimeProvider->getNow()
+					'invoices_imported_date' => $this->datetimeProvider->getNow(),
+					'invoices_persons_system_id' => $row['Id osoby']
 				]);
 
 				$invoiceId = $this->database->getInsertId();

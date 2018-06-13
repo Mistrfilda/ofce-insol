@@ -35,6 +35,7 @@ abstract class BaseTest extends Tester\TestCase
 	{
 		parent::setUp();
 		$this->database->begin();
+		Tester\Environment::lock('database', __DIR__ . '/../temp');
 	}
 
 	protected function createUser()

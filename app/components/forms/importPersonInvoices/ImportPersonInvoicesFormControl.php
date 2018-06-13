@@ -73,7 +73,7 @@ class ImportPersonInvoicesFormControl extends BaseForm
 		}
 
 		$this->presenter->flashMessage($result . ' smluv uspesne nahrano!', 'success');
-		$this->presenter->redirect('Persons:default');
+		$this->presenter->redirect('Invoices:default');
 
 	}
 }

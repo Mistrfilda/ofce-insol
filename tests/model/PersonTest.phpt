@@ -33,6 +33,7 @@ class PersonTest extends BaseTest
 
 	public function testImportPersons()
 	{
+		$this->database->commit();
 		Assert::exception(function () {
 			$this->importModel->importPersons(file_get_contents('../files/person_missing_data.csv'));
 		}, AppException::class, 'Ročník', AppException::IMPORT_MISSING_MANDATORY_VALUE);
@@ -40,6 +41,12 @@ class PersonTest extends BaseTest
 		$file = file_get_contents('../files/person_import.csv');
 		$importedPersons = $this->importModel->importPersons($file);
 		Assert::equal(5, $importedPersons);
+
+		$persons = $this->personModel->getPersons();
+		Assert::count(5, $persons);
+
+		//need to delete from persons table manually, since transactions are commited in importing
+		$this->database->query('DELETE from persons');
 	}
 }
 
