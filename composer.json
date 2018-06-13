@@ -25,7 +25,8 @@
 		"contributte/console": "^0.4.0",
 		"parsecsv/php-parsecsv": "^1.0",
 		"tomaj/nette-bootstrap-form": "^1.3",
-		"ublaboo/datagrid": "dev-master"
+		"ublaboo/datagrid": "dev-master",
+		"nextras/tracy-monolog-adapter": "^1.0"
 	},
 	"require-dev": {
 		"nette/tester": "^2.0",
