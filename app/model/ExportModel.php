@@ -8,22 +8,10 @@ namespace App\Model;
 use App\Lib\AppException;
 use Dibi\Fluent;
 use Dibi\Row;
-use Nette\Security\User;
-use ParseCsv\Csv;
 
 
 class ExportModel extends BaseModel
 {
-	/** @var User */
-	private $user;
-
-
-	public function __construct(User $user)
-	{
-		$this->user = $user;
-	}
-
-
 	public function getFluentBuilder() : Fluent
 	{
 		return $this->database->select('*')->from('exports');

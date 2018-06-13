@@ -10,10 +10,13 @@ use App\Model\UserModel;
 use Nette\Application\UI\Presenter;
 
 
-class BasePresenter extends Presenter
+abstract class BasePresenter extends Presenter
 {
 	/** @var UserModel $userModel */
 	protected $userModel;
+
+	/** @var array|string[]|int[] */
+	protected $appUser;
 
 	public function injectUserModel(UserModel $userModel) : void
 	{
@@ -24,7 +27,9 @@ class BasePresenter extends Presenter
 	{
 		parent::startup();
 		if ($this->getUser()->isLoggedIn()) {
-			$this->getTemplate()->appUser = $this->userModel->getUserById($this->getUser()->getId());
+			$user = $this->userModel->getUserById($this->getUser()->getId());
+			$this->getTemplate()->appUser = $user;
+			$this->appUser = $user;
 		}
 	}
 

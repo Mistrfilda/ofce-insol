@@ -23,7 +23,7 @@ class UserModel extends BaseModel
 
 	/**
 	 * @param int $id
-	 * @return array|array[]
+	 * @return array|string[]|int[]
 	 * @throws AppException
 	 */
 	public function getUserById(int $id) : array

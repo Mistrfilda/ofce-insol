@@ -6,7 +6,7 @@ declare(strict_types = 1);
 namespace App\Presenters;
 
 
-class SecurePresenter extends BasePresenter
+abstract class SecurePresenter extends BasePresenter
 {
 	protected function startup() : void
 	{

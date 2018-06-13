@@ -1,0 +1,1 @@
+ALTER TABLE `ofce-insol`.`users` ADD COLUMN `users_sysadmin` TINYINT NULL DEFAULT 0;

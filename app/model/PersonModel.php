@@ -7,6 +7,7 @@ namespace App\Model;
 
 
 use App\Lib\AppException;
+use Dibi\Exception;
 use Dibi\Fluent;
 use Dibi\Row;
 

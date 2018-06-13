@@ -35,6 +35,7 @@ class LoginFormControl extends BaseForm
 		try {
 			$this->user->login($values['login'], $values['password']);
 			$this->user->setExpiration('30 minutes');
+			$this->logger->log('Login', 'Logged in');
 		} catch (AuthenticationException $e) {
 			$this->presenter->flashMessage('Nespravne uzivatelske jmeno nebo heslo', 'danger');
 			return;

@@ -10,6 +10,7 @@ extensions:
 	dibi: Dibi\Bridges\Nette\DibiExtension22
 	migrations: Nextras\Migrations\Bridges\NetteDI\MigrationsExtension
 	console: Contributte\Console\DI\ConsoleExtension(%consoleMode%)
+	monolog: Nextras\TracyMonologAdapter\Bridges\NetteDI\MonologExtension
 
 console:
 	catchExceptions: false
@@ -41,9 +42,11 @@ services:
 	- App\Model\UserModel
 	- App\Model\ExportModel
 	- App\Model\InvoiceModel
+	- App\Model\LogModel
 
 	##LIB
 	- App\Lib\DatetimeProvider
+	- App\Lib\Logger
 
 	##FORMS
 	- App\Components\Forms\Login\LoginFormControlFactory

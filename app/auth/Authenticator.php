@@ -6,7 +6,7 @@ declare(strict_types = 1);
 namespace App\Auth;
 
 use App\Lib\AppException;
-use App\Model\UserModel;
+use Dibi\Connection;
 use Nette\Security\AuthenticationException;
 use Nette\Security\IAuthenticator;
 use Nette\Security\Identity;
@@ -17,13 +17,13 @@ use Nette\Utils\Strings;
 class Authenticator implements IAuthenticator
 {
 	/**
-	 * @var UserModel
+	 * @var Connection
 	 */
-	private $userModel;
+	private $database;
 
-	public function __construct(UserModel $userModel)
+	public function __construct(Connection $database)
 	{
-		$this->userModel = $userModel;
+		$this->database = $database;
 	}
 
 
@@ -34,14 +34,9 @@ class Authenticator implements IAuthenticator
 	 */
 	public function authenticate(array $credentials) : Identity
 	{
-		try {
-			$user = $this->userModel->getUserByLogin(Strings::lower($credentials[0]));
-		} catch (AppException $e) {
-			if ($e->getCode() === AppException::UNKNOWN_USER) {
-				throw new AuthenticationException();
-			}
-
-			throw $e;
+		$user = $this->database->query('SELECT * from users where users_login = %s', $credentials[0])->fetch();
+		if ($user === NULL) {
+			throw new AuthenticationException();
 		}
 
 		if (!Passwords::verify($credentials[1], $user['users_password'])) {
