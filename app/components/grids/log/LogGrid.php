@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 
 namespace App\Components\Grids\Log;
 
@@ -25,7 +27,7 @@ class LogGrid extends BaseGrid
 		$this->userModel = $userModel;
 	}
 
-	public function render()
+	public function render() : void
 	{
 		$this->getTemplate()->setFile(str_replace('.php', '.latte', __FILE__));
 		$this->getTemplate()->render();

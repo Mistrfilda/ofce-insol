@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types = 1);
+
 
 namespace App\Components\Grids\Log;
 
 
 interface LogGridFactory
 {
-	/** @return LogGrid */
-	public function create();
+	public function create() : LogGrid;
 }
