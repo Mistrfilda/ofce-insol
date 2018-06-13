@@ -59,3 +59,4 @@ services:
 	- App\Components\Grids\ExportPersons\ExportPersonsGridFactory
 	- App\Components\Grids\ExportPersonsDetail\ExportPersonsDetailGridFactory
 	- App\Components\Grids\Invoices\InvoicesGridFactory
+	- App\Components\Grids\Log\LogGridFactory
