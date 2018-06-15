@@ -7,17 +7,36 @@ namespace App\Model;
 
 
 use App\Lib\AppException;
+use Dibi\Fluent;
 use Nette\Security\Passwords;
 
 
 class UserModel extends BaseModel
 {
-	public function createUser(string $name, string $password) : void
+	public function getFluentBuilder() : Fluent
+	{
+		return $this->database->select('*')->from('users');
+	}
+
+	public function createUser(string $name, string $password, int $sysadmin = 0) : void
 	{
 		$this->database->query('INSERT into users', [
 			'users_login' => $name,
-			'users_password' => Passwords::hash($password)
+			'users_password' => Passwords::hash($password),
+			'users_sysadmin' => $sysadmin
 		]);
+	}
+
+	public function updateUser(int $userId, string $name, ?string $password, int $sysadmin = 0) : void
+	{
+		$update = [];
+		$update['users_login'] = $name;
+		$update['users_sysadmin'] = $sysadmin;
+		if ($password !== NULL) {
+			$update['users_password'] = Passwords::hash($password);
+		}
+
+		$this->database->query('UPDATE users set', $update, 'where users_id = %i', $userId);
 	}
 
 

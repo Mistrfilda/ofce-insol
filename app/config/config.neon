@@ -53,6 +53,7 @@ services:
 	- App\Components\Forms\ImportPersons\ImportPersonsFormControlFactory
 	- App\Components\Forms\ExportPersons\ExportPersonsFormControlFactory
 	- App\Components\Forms\ImportPersonsInvoices\ImportPersonInvoicesFormControlFactory
+	- App\Components\Forms\User\EditUserFormControlFactory
 
 	##GRID
 	- App\Components\Grids\Persons\PersonsGridFactory
@@ -60,3 +61,4 @@ services:
 	- App\Components\Grids\ExportPersonsDetail\ExportPersonsDetailGridFactory
 	- App\Components\Grids\Invoices\InvoicesGridFactory
 	- App\Components\Grids\Log\LogGridFactory
+	- App\Components\Grids\Users\UsersGridFactory

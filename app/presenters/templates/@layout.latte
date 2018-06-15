@@ -82,7 +82,9 @@
 				<li><a n:href="Export:default">Export</a></li>
 				{*<li><a n:href="Api:default">Api</a></li>*}
 				<li><a n:href="Invoices:default">Smlouvy</a></li>
+				{if $appUser['users_sysadmin']}
 				<li><a n:href="System:default">System</a></li>
+				{/if}
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown">

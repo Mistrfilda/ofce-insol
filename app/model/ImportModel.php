@@ -36,9 +36,11 @@ class ImportModel extends BaseModel
 
 	public function importPersons(string $fileContents) : int
 	{
+		$this->logger->log('PERSON IMPORT', 'Start import');
 		$csvParser = $this->getCsvParser();
 		$csvParser->parse($fileContents);
 		$data = $csvParser->data;
+		$this->logger->log('PERSON IMPORT', 'File successfully parsed');
 
 		if (count($data) > 0) {
 			$inserts = [];
@@ -72,17 +74,21 @@ class ImportModel extends BaseModel
 				}
 			}
 
+			$this->logger->log('PERSON IMPORT', 'Import successfull, count of imported persons - ' . count($inserts));
 			return count($inserts);
 		}
 
+		$this->logger->log('PERSON IMPORT', 'Import finished, 0 persons imported');
 		return 0;
 	}
 
 	public function importPersonInvoices(string $fileContents) : int
 	{
+		$this->logger->log('INVOICE IMPORT', 'Start import');
 		$csvParser = $this->getCsvParser();
 		$csvParser->parse($fileContents);
 		$data = $csvParser->data;
+		$this->logger->log('INVOICE IMPORT', 'File successfully parsed');
 
 		if (count($data) < 0) {
 			throw new AppException(AppException::IMPORT_NO_ROWS);
@@ -118,9 +124,12 @@ class ImportModel extends BaseModel
 				$this->personModel->updatePersonInvoice($row['Rodné číslo'], (int)$row['Id osoby'], $invoiceId);
 			}
 			$this->database->commit();
+
+			$this->logger->log('INVOICE IMPORT', 'Import successfull, count of imported invoices - ' . count($data));
 			return count($data);
 		}
 
+		$this->logger->log('INVOICE IMPORT', 'Import finished, 0 invoices imported');
 		return 0;
 	}
 

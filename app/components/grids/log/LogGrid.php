@@ -39,6 +39,7 @@ class LogGrid extends BaseGrid
 		$grid->setPrimaryKey('log_id');
 		$grid->setDataSource($this->logModel->getFluentBuilder());
 		$grid->addColumnText('log_id', 'ID');
+		$grid->addColumnDateTime('log_time', 'Cas')->setFormat('d. m. Y H:i:s')->setSortable()->setFilterDate();
 
 		$userPairs = $this->userModel->getPairs();
 		$grid->addColumnText('log_users_id', 'Uzivatel')->setRenderer(function ($row) use ($userPairs) {
@@ -47,6 +48,7 @@ class LogGrid extends BaseGrid
 
 		$grid->addColumnText('log_type', 'Typ')->setSortable()->setFilterText();
 		$grid->addColumnText('log_message', 'Zprava')->setSortable()->setFilterText();
+		$grid->setDefaultSort(['log_id' => 'desc']);
 		return $grid;
 	}
 }
