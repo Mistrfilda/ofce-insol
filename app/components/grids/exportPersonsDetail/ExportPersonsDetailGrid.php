@@ -66,7 +66,7 @@ class ExportPersonsDetailGrid extends BaseGrid
 		$grid->addColumnDateTime('invoices_from', 'Smlouva platna od')->setFormat('d. m. Y H:i:s')->setFilterDate();
 		$grid->setAutoSubmit(FALSE);
 		$grid->setOuterFilterRendering(TRUE);
-		$grid->addExportCsvFiltered('Export do csv', 'export_' . date('d-m-Y-H-i-s'));
+		$grid->addExportCsvFiltered('Export do csv', 'export-' . date('d-m-Y-H-i-s') . '.csv');
 		return $grid;
 	}
 }
