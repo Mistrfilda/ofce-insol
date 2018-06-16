@@ -39,6 +39,9 @@ class InvoicesGrid extends BaseGrid
 		$grid->addColumnText('invoices_type', 'Typ smlovy')->setSortable()->setFilterText();
 		$grid->addColumnDateTime('invoices_from', 'Platnost od')->setFormat('d. m. Y H:i:s')->setSortable()->setFilterDate();
 		$grid->addColumnDateTime('invoices_imported_date', 'Nahrano dne')->setFormat('d. m. Y H:i:s')->setSortable()->setFilterDate();
+		$grid->setOuterFilterRendering(TRUE);
+		$grid->setAutoSubmit(FALSE);
+		$grid->addExportCsvFiltered('Export do csv', 'smlouvy-export-' . date('Y-m-d-H-i-s') . 'csv');
 		return $grid;
 	}
 }
