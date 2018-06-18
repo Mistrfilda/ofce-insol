@@ -26,7 +26,9 @@ class UserModel extends BaseModel
 			'users_sysadmin' => $sysadmin
 		]);
 
-		$this->logger->log('USER CREATE', 'Created user - . ' . $name);
+		if ($this->user->isLoggedIn()) {
+			$this->logger->log('USER CREATE', 'Created user - . ' . $name);
+		}
 	}
 
 	public function updateUser(int $userId, string $name, ?string $password, int $sysadmin = 0) : void
