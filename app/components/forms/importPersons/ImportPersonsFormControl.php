@@ -57,6 +57,12 @@ class ImportPersonsFormControl extends BaseForm
 		try {
 			$result = $this->importModel->importPersons($fileContents);
 		} catch (AppException $e) {
+			if ($e->getCode() === AppException::IMPORT_MISSING_MANDATORY_VALUE) {
+				$this['importPersonsForm']->addError('Chybi povinny parameters - ' . $e->getMessage());
+				$this->presenter->flashMessage('Chybi povinny parameters - ' . $e->getMessage(), 'danger');
+				return;
+			}
+
 			throw $e;
 		}
 

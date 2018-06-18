@@ -59,15 +59,19 @@ class ImportPersonInvoicesFormControl extends BaseForm
 			$result = $this->importModel->importPersonInvoices($fileContents);
 		} catch (AppException $e) {
 			if ($e->getCode() === AppException::PERSON_UNKNOWN_PERSON) {
-				$this['importPersonsForm']->addError('Nezname ID - ' . $e->getMessage());
+				$this['importPersonInvoicesForm']->addError('Nezname ID - ' . $e->getMessage());
 				$this->presenter->flashMessage('Nezname ID - ' . $e->getMessage(), 'danger');
+				return;
+			} elseif ($e->getCode() === AppException::IMPORT_MISSING_MANDATORY_VALUE) {
+				$this['importPersonInvoicesForm']->addError('Chybi povinny parameter - ' . $e->getMessage());
+				$this->presenter->flashMessage('Chybi povinny parameter - ' . $e->getMessage(), 'danger');
 				return;
 			}
 			throw $e;
 		}
 
 		if ($result === 0) {
-			$this['importPersonsForm']->addError('Nepodarilo se nahrat zadnou novou smlouvu, zkontrolujte zdroj!');
+			$this['importPersonInvoicesForm']->addError('Nepodarilo se nahrat zadnou novou smlouvu, zkontrolujte zdroj!');
 			$this->presenter->flashMessage('Nepodarilo se nahrat zadnou novou smlouvu, zkontrolujte zdroj!', 'danger');
 			return;
 		}

@@ -37,6 +37,8 @@ class PersonModel extends BaseModel
 	public function updatePersonInvoice(string $personBirthId, int $personAgId, int $invoiceId) : void
 	{
 		$this->database->query('UPDATE persons set persons_actual_invoice_id = %i, persons_ag_id = %i where persons_birth_id = %s', $invoiceId, $personAgId, $personBirthId);
+
+		$this->logger->log('PERSON INVOICE UPDATE', 'Person: ' . $personBirthId . ', AgID: ' . $personAgId . ', InvoiceID: ' . $invoiceId);
 	}
 
 	/**

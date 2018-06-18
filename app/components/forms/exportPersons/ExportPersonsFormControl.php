@@ -61,6 +61,10 @@ class ExportPersonsFormControl extends BaseForm
 				$this['exportPersonsForm']->addError('Nepodarilo se nahrat zadnou novou osobu, zkontrolujte zdroj!');
 				$this->presenter->flashMessage('Nepodarilo se nahrat zadnou novou osobu, zkontrolujte zdroj!', 'danger');
 				return;
+			} elseif ($e->getCode() === AppException::EXPORT_PERSONS_MISSING_MANDATORY_VALUE) {
+				$this['exportPersonsForm']->addError('Chybi povinny parameter - ' . $e->getMessage());
+				$this->presenter->flashMessage('Chybi povinny parameter - ' . $e->getMessage(),'danger');
+				return;
 			}
 			throw $e;
 		}

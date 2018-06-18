@@ -25,6 +25,8 @@ class UserModel extends BaseModel
 			'users_password' => Passwords::hash($password),
 			'users_sysadmin' => $sysadmin
 		]);
+
+		$this->logger->log('USER CREATE', 'Created user - . ' . $name);
 	}
 
 	public function updateUser(int $userId, string $name, ?string $password, int $sysadmin = 0) : void
@@ -37,6 +39,8 @@ class UserModel extends BaseModel
 		}
 
 		$this->database->query('UPDATE users set', $update, 'where users_id = %i', $userId);
+
+		$this->logger->log('USER UPDATE', 'Updated user - . ' . $name);
 	}
 
 

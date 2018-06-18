@@ -99,7 +99,9 @@ class ImportModel extends BaseModel
 			foreach ($data as $row) {
 				foreach ($row as $key => $value) {
 					if ($value === "") {
-						throw new AppException(AppException::IMPORT_MISSING_MANDATORY_VALUE);
+						$this->database->rollback();
+						$this->logger->log('INVOICE IMPORT', 'Missing mandatory value - ' . $key);
+						throw new AppException(AppException::IMPORT_MISSING_MANDATORY_VALUE, $key);
 					}
 
 					$row[$key] = Strings::trim($value);
@@ -109,6 +111,8 @@ class ImportModel extends BaseModel
 
 				$invoiceFrom = strtotime($row['Platnost od']);
 				if ($invoiceFrom === FALSE) {
+					$this->database->rollback();
+					$this->logger->log('INVOICE IMPORT', 'Unsupported date - ' . $row['Platnost od']);
 					throw new AppException(AppException::IMPORT_INVOICES_UNSUPPORTED_DATE);
 				}
 
@@ -143,6 +147,8 @@ class ImportModel extends BaseModel
 	{
 		foreach ($this->personColumns as $column) {
 			if (!array_key_exists($column, $row)) {
+				$this->database->rollback();
+				$this->logger->log('PERSON IMPORT', 'Missing mandatory value - ' . $column);
 				throw new AppException(AppException::IMPORT_MISSING_MANDATORY_VALUE, $column);
 			}
 		}
@@ -160,6 +166,8 @@ class ImportModel extends BaseModel
 	{
 		foreach ($this->invoiceColumns as $column) {
 			if (!array_key_exists($column, $row)) {
+				$this->database->rollback();
+				$this->logger->log('INVOICE IMPORT', 'Missing mandatory value - ' . $column);
 				throw new AppException(AppException::IMPORT_MISSING_MANDATORY_VALUE, $column);
 			}
 		}

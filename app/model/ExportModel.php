@@ -63,11 +63,14 @@ class ExportModel extends BaseModel
 
 	public function exportPersons(string $fileContents) : int
 	{
+		$this->logger->log('PERSON EXPORT', 'Start export');
 		$csvParser = $this->getCsvParser();
 		$csvParser->parse($fileContents);
 		$data = $csvParser->data;
+		$this->logger->log('PERSON EXPORT', 'File successfully parsed');
 
 		if (count($data) < 0) {
+			$this->logger->log('PERSON EXPORT', '0 rows parsed');
 			throw new AppException(AppException::EXPORT_PERSONS_NO_ROWS);
 		}
 
@@ -82,6 +85,16 @@ class ExportModel extends BaseModel
 
 		$inserts = [];
 		foreach ($data as $key => $row) {
+			if (!array_key_exists('Rodné číslo', $row)) {
+				$this->database->rollback();
+				$this->logger->log('PERSON EXPORT', 'Missing mandatory value - Rodné číslo');
+				throw new AppException(AppException::EXPORT_PERSONS_MISSING_MANDATORY_VALUE, 'Rodné číslo');
+			}
+
+			if (!array_key_exists('IČ', $row)) {
+				$row['IČ'] = NULL;
+			}
+
 			foreach ($row as $columnName => $column) {
 				if ($column === "") {
 					$row[$columnName] = NULL;
@@ -100,6 +113,8 @@ class ExportModel extends BaseModel
 		}
 
 		$this->database->commit();
+
+		$this->logger->log('PERSON EXPORT', 'Export successful, count of exported persons - ' . count($inserts));
 		return $exportsId;
 	}
 
