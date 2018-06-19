@@ -45,8 +45,8 @@ class PersonsGrid extends BaseGrid
 		$grid->addColumnText('persons_birth_id', 'Rodne cislo')->setFilterText();
 		$grid->addColumnText('persons_company_id', 'IC')->setFilterText();
 		$grid->addColumnText('persons_year', 'Rok')->setFilterSelect($this->addGridSelect(Helpers::getGridYears(2005, 2020)));
-		$grid->addColumnText('persons_firstname', 'Jmeno');
-		$grid->addColumnText('persons_lastname', 'Primeni/Nazev firmy');
+		$grid->addColumnText('persons_firstname', 'Jmeno')->setFilterText();
+		$grid->addColumnText('persons_lastname', 'Primeni/Nazev firmy')->setFilterText();
 		$grid->addColumnText('persons_actual_invoice_id', 'Aktualni smlouva')->setRenderer(function($row) {
 			if ($row['persons_actual_invoice_id'] !== NULL) {
 				return 'ANO';
