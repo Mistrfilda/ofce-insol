@@ -27,11 +27,6 @@ class PersonsGrid extends BaseGrid
 		$this->personModel = $personModel;
 	}
 
-	public function setActualInvoice() : void
-	{
-		$this->showActualInvoice = TRUE;
-	}
-
 	public function render() : void
 	{
 		$this->getTemplate()->showModal = $this->showModal;
