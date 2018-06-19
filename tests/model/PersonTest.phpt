@@ -28,6 +28,7 @@ class PersonTest extends BaseTest
 		parent::setUp();
 		$this->personModel = $this->container->getByType(PersonModel::class);
 		$this->importModel = $this->container->getByType(ImportModel::class);
+		$this->createUser();
 		$this->loginUser();
 	}
 
@@ -45,8 +46,6 @@ class PersonTest extends BaseTest
 		$persons = $this->personModel->getPersons();
 		Assert::count(5, $persons);
 
-		//need to delete from persons table manually, since transactions are commited in importing
-		$this->database->query('DELETE from persons');
 	}
 
 	public function testGetPersonMethods()
@@ -84,10 +83,18 @@ class PersonTest extends BaseTest
 
 		$personInvoices = $this->personModel->getPersonInvoices($testPerson['persons_id']);
 		Assert::count(1, $personInvoices);
+	}
 
+	public function tearDown()
+	{
+		parent::tearDown();
 		//need to delete from persons table manually, since transactions are commited in importing, just for localhost :) i am lazy
+		$this->database->query('set foreign_key_checks = 0');
+		$this->database->query('DELETE from users');
+		$this->database->query('DELETE from log');
 		$this->database->query('DELETE from persons');
 		$this->database->query('DELETE from invoices');
+		$this->database->query('set foreign_key_checks = 1');
 	}
 }
 

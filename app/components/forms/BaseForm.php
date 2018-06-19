@@ -35,6 +35,7 @@ abstract class BaseForm extends Control
 	{
 		$form = new Form();
 		$form->setRenderer(new BootstrapRenderer());
+		$form->addProtection('Vypršel časový limit, odešlete formulář znovu');
 		return $form;
 	}
 }

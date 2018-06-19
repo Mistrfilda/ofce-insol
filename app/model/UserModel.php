@@ -8,6 +8,7 @@ namespace App\Model;
 
 use App\Lib\AppException;
 use Dibi\Fluent;
+use Nette\Application\ForbiddenRequestException;
 use Nette\Security\Passwords;
 
 
@@ -18,21 +19,33 @@ class UserModel extends BaseModel
 		return $this->database->select('*')->from('users');
 	}
 
-	public function createUser(string $name, string $password, int $sysadmin = 0) : void
+	public function createUser(string $name, string $password, int $sysadmin = 0) : int
 	{
+		if ($this->getUserById($this->user->getId())['users_sysadmin'] === 0) {
+			throw new ForbiddenRequestException();
+		}
+
 		$this->database->query('INSERT into users', [
 			'users_login' => $name,
 			'users_password' => Passwords::hash($password),
 			'users_sysadmin' => $sysadmin
 		]);
 
-		if ($this->user->isLoggedIn()) {
-			$this->logger->log('USER CREATE', 'Created user - . ' . $name);
-		}
+		$userId = $this->database->getInsertId();
+
+		$this->logger->log('USER CREATE', 'Created user - . ' . $name);
+
+		return $userId;
 	}
 
 	public function updateUser(int $userId, string $name, ?string $password, int $sysadmin = 0) : void
 	{
+		if ($this->getUserById($this->user->getId())['users_sysadmin'] === 0) {
+			throw new ForbiddenRequestException();
+		}
+
+		$this->getUserById($userId);
+
 		$update = [];
 		$update['users_login'] = $name;
 		$update['users_sysadmin'] = $sysadmin;

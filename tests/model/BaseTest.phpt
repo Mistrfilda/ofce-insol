@@ -4,8 +4,9 @@
 namespace Test;
 
 
-use App\Model\UserModel;
 use Dibi\Connection;
+use Nette\Application\BadRequestException;
+use Nette\Security\Passwords;
 use Nette\Security\User;
 use Tester;
 use Nette\DI\Container;
@@ -28,21 +29,22 @@ abstract class BaseTest extends Tester\TestCase
 	{
 		$this->container = $container;
 		$this->database = $container->getByType(Connection::class);
-		$this->createUser();
 	}
 
 	public function setUp()
 	{
 		parent::setUp();
-		$this->database->begin();
 		Tester\Environment::lock('database', __DIR__ . '/../temp');
+		$this->database->begin();
 	}
 
 	protected function createUser()
 	{
-		/** @var UserModel $userModel */
-		$userModel = $this->container->getByType(UserModel::class);
-		$userModel->createUser('testAdmin', '123456');
+		$this->database->query('INSERT into users', [
+			'users_login' => 'testAdmin',
+			'users_password' => Passwords::hash('123456'),
+			'users_sysadmin' => 1
+		]);
 	}
 
 	protected function loginUser()
@@ -55,7 +57,7 @@ abstract class BaseTest extends Tester\TestCase
 
 	public function tearDown()
 	{
-		parent::tearDown();
 		$this->database->rollback();
+		parent::tearDown();
 	}
 }
