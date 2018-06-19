@@ -63,6 +63,7 @@ class PersonsGrid extends BaseGrid
 
 		$grid->addColumnText('invoices_type', 'Typ smlouvy');
 		$grid->addColumnDateTime('invoices_from', 'Smlouva platna od')->setFormat('d. m. Y H:i:s')->setFilterDate();
+		$grid->addColumnDateTime('invoices_to', 'Smlouva platna do')->setFormat('d. m. Y H:i:s')->setFilterDate();
 
 		$grid->addAction('showInvoices', '', 'showInvoices', ['id' => 'persons_id'])
 			->setClass('btn btn-default ajax')
