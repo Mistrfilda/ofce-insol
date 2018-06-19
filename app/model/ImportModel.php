@@ -21,7 +21,7 @@ class ImportModel extends BaseModel
 	 * For now hardcoded, possibility in future to set columns from config
 	 * @var array|string[]
 	 */
-	private	$personColumns = ['Rodné číslo', 'Ročník', 'Jméno', 'Příjmení/Název', 'IČ'];
+	private	$personColumns = ['Rodné číslo', 'Ročník/Datum', 'Jméno', 'Příjmení/Název'];
 
 	/**
 	 * For now hardcoded, possibility in future to set columns from config
@@ -53,11 +53,15 @@ class ImportModel extends BaseModel
 					}
 				}
 
+				if (!array_key_exists('IČ', $person)) {
+					$person['IČ'] = NULL;
+				}
+
 				$this->validatePersonRow($person);
 
 				$inserts[] = [
 					'persons_birth_id'   => $person['Rodné číslo'],
-					'persons_year'       => $person['Ročník'],
+					'persons_year'       => $person['Ročník/Datum'],
 					'persons_company_id' => $person['IČ'],
 					'persons_firstname'  => $person['Jméno'],
 					'persons_lastname'   => $person['Příjmení/Název']
