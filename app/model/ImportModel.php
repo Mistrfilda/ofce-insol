@@ -27,7 +27,7 @@ class ImportModel extends BaseModel
 	 * For now hardcoded, possibility in future to set columns from config
 	 * @var array|string[]
 	 */
-	private $invoiceColumns = ['Id osoby', 'Jméno osoby', 'Rodné číslo', 'Platnost od', 'Typ smlouvy'];
+	private $invoiceColumns = ['Id osoby', 'Jméno osoby', 'Rodné číslo', 'Platnost od', 'Typ smlouvy', 'Číslo prac. smlouvy'];
 
 	public function __construct(PersonModel $personModel)
 	{
@@ -100,12 +100,12 @@ class ImportModel extends BaseModel
 
 		if (count($data) > 0) {
 			$this->database->begin();
-			foreach ($data as $row) {
+			foreach ($data as $rowIndex => $row) {
 				foreach ($row as $key => $value) {
 					if ($value === "") {
 						$this->database->rollback();
 						$this->logger->log('INVOICE IMPORT', 'Missing mandatory value - ' . $key);
-						throw new AppException(AppException::IMPORT_MISSING_MANDATORY_VALUE, $key);
+						throw new AppException(AppException::IMPORT_MISSING_MANDATORY_VALUE, $key . ' na radku: ' . ($rowIndex + 2));
 					}
 
 					$row[$key] = Strings::trim($value);
@@ -125,7 +125,8 @@ class ImportModel extends BaseModel
 					'invoices_from' => new DateTime($invoiceFrom),
 					'invoices_type' => $row['Typ smlouvy'],
 					'invoices_imported_date' => $this->datetimeProvider->getNow(),
-					'invoices_persons_system_id' => $row['Id osoby']
+					'invoices_persons_system_id' => $row['Id osoby'],
+					'invoice_system_id' => $row['Číslo prac. smlouvy']
 				]);
 
 				$invoiceId = $this->database->getInsertId();

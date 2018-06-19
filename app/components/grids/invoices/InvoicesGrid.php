@@ -34,6 +34,7 @@ class InvoicesGrid extends BaseGrid
 		$grid->setPrimaryKey('invoices_id');
 		$grid->setDataSource($this->invoiceModel->getFluentBuilder());
 		$grid->addColumnText('invoices_id', 'ID')->setSortable()->setFilterText();
+		$grid->addColumnText('invoices_system_id', 'System ID')->setSortable()->setFilterText();
 		$grid->addColumnText('invoices_persons_system_id', 'System ID')->setSortable()->setFilterText();
 		$grid->addColumnText('invoices_persons_birth_id', 'Rodne cislo')->setSortable()->setFilterText();
 		$grid->addColumnText('invoices_type', 'Typ smlovy')->setSortable()->setFilterText();

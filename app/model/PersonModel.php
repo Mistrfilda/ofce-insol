@@ -16,7 +16,7 @@ class PersonModel extends BaseModel
 {
 	public function getFluentBuilder() : Fluent
 	{
-		return $this->database->select('*')->from('persons')->leftJoin('invoices')->on('persons_actual_invoice_id = invoices_id');
+		return $this->database->select('*')->from('persons');
 	}
 
 	/**
