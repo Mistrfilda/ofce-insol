@@ -1,3 +1,3 @@
-"Id osoby";"Jméno osoby";"Rodné číslo";"Platnost od";"Typ smlouvy"
-547412;"Test person 1";"  666666/1111  ";1.1.2017;"DPC-ING-CR-2017"
-547848;"Test person 2";"555555/2222";1.1.2017;"DPC-ING-CR-2017"
+"Číslo prac. smlouvy";"Id osoby";"Jméno osoby";"Rodné číslo";"Platnost od";"Typ smlouvy"
+"123456";547412;"Test person 1";"  666666/1111  ";1.1.2017;"DPC-ING-CR-2017"
+"123457";547848;"Test person 2";"555555/2222";1.1.2017;"DPC-ING-CR-2017"

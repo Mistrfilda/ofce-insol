@@ -21,9 +21,6 @@ class PersonsGrid extends BaseGrid
 	/** @var bool */
 	private $showModal = FALSE;
 
-	/** @var bool */
-	private $showActualInvoice = FALSE;
-
 	public function __construct(PersonModel $personModel)
 	{
 		parent::__construct();
@@ -61,7 +58,7 @@ class PersonsGrid extends BaseGrid
 			}
 
 			return 'NE';
-		})->setFilterSelect([ 0 => 'NE', 1 => 'ANO'])->setPrompt('Vybrat')->setCondition(function(Fluent $fluent, int $value) {
+		})->setFilterSelect([ 0 => 'NE', 1 => 'ANO'])->setPrompt('Vybrat')->setCondition(function(Fluent $fluent, int $value) : void {
 			if ($value === 1) {
 				$fluent->where('persons_actual_invoice_id is not null');
 			} else {
