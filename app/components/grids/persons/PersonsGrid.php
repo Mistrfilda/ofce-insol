@@ -38,7 +38,7 @@ class PersonsGrid extends BaseGrid
 	{
 		$grid = $this->createGrid();
 		$grid->setPrimaryKey('persons_id');
-		$grid->setDataSource($this->personModel->getFluentBuilder()->leftJoin('invoices')->on('invoices_id = persons_actual_invoice_id')->groupBy('persons_id'));
+		$grid->setDataSource($this->personModel->getFluentBuilder()->leftJoin('invoices')->on('invoices_id = persons_actual_invoice_id'));
 
 		$grid->addColumnText('persons_id', 'Id osoby')->setFilterText();
 		$grid->addColumnText('persons_ag_id', 'System ID')->setFilterText();
