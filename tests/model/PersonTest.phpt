@@ -37,7 +37,7 @@ class PersonTest extends BaseTest
 		$this->database->commit();
 		Assert::exception(function () {
 			$this->importModel->importPersons(file_get_contents('../files/person_missing_data.csv'));
-		}, AppException::class, 'Ročník', AppException::IMPORT_MISSING_MANDATORY_VALUE);
+		}, AppException::class, 'Ročník/Datum', AppException::IMPORT_MISSING_MANDATORY_VALUE);
 
 		$file = file_get_contents('../files/person_import.csv');
 		$importedPersons = $this->importModel->importPersons($file);
