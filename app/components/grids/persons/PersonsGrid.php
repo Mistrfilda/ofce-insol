@@ -71,6 +71,7 @@ class PersonsGrid extends BaseGrid
 
 		$grid->setAutoSubmit(FALSE);
 		$grid->setOuterFilterRendering(TRUE);
+		$grid->setRememberState(FALSE);
 
 		$grid->addExportCsvFiltered('Export do csv', 'export-osob-' . date('Y-m-d-H-i-s') . '.csv');
 		return $grid;
