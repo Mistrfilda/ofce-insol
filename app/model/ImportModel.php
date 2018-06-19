@@ -27,7 +27,7 @@ class ImportModel extends BaseModel
 	 * For now hardcoded, possibility in future to set columns from config
 	 * @var array|string[]
 	 */
-	private $invoiceColumns = ['Id osoby', 'Jméno osoby', 'Rodné číslo', 'Platnost od', 'Typ smlouvy', 'Číslo prac. smlouvy'];
+	private $invoiceColumns = ['Id osoby', 'Jméno osoby', 'Rodné číslo', 'Platnost od', 'Typ smlouvy', 'Číslo prac. smlouvy', 'Platnost do'];
 
 	public function __construct(PersonModel $personModel)
 	{
@@ -116,17 +116,25 @@ class ImportModel extends BaseModel
 				$invoiceFrom = strtotime($row['Platnost od']);
 				if ($invoiceFrom === FALSE) {
 					$this->database->rollback();
-					$this->logger->log('INVOICE IMPORT', 'Unsupported date - ' . $row['Platnost od']);
+					$this->logger->log('INVOICE IMPORT', 'Unsupported date (invoice from) - ' . $row['Platnost od']);
+					throw new AppException(AppException::IMPORT_INVOICES_UNSUPPORTED_DATE);
+				}
+
+				$invoiceTo = strtotime($row['Platnost do']);
+				if ($invoiceTo === FALSE) {
+					$this->database->rollback();
+					$this->logger->log('INVOICE IMPORT', 'Unsupported date - (invoice to) ' . $row['Platnost do']);
 					throw new AppException(AppException::IMPORT_INVOICES_UNSUPPORTED_DATE);
 				}
 
 				$this->database->query('INSERT into invoices', [
 					'invoices_persons_birth_id' => $row['Rodné číslo'],
 					'invoices_from' => new DateTime($invoiceFrom),
+					'invoices_to' => new DateTime($invoiceTo),
 					'invoices_type' => $row['Typ smlouvy'],
 					'invoices_imported_date' => $this->datetimeProvider->getNow(),
 					'invoices_persons_system_id' => $row['Id osoby'],
-					'invoice_system_id' => $row['Číslo prac. smlouvy']
+					'invoices_system_id' => $row['Číslo prac. smlouvy']
 				]);
 
 				$invoiceId = $this->database->getInsertId();
