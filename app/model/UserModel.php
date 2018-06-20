@@ -21,9 +21,9 @@ class UserModel extends BaseModel
 
 	public function createUser(string $name, string $password, int $sysadmin = 0) : int
 	{
-		if ($this->getUserById($this->user->getId())['users_sysadmin'] === 0) {
-			throw new ForbiddenRequestException();
-		}
+		//if ($this->getUserById($this->user->getId())['users_sysadmin'] === 0) {
+		//	throw new ForbiddenRequestException();
+		//}
 
 		$this->database->query('INSERT into users', [
 			'users_login' => $name,
@@ -40,9 +40,9 @@ class UserModel extends BaseModel
 
 	public function updateUser(int $userId, string $name, ?string $password, int $sysadmin = 0) : void
 	{
-		if ($this->getUserById($this->user->getId())['users_sysadmin'] === 0) {
-			throw new ForbiddenRequestException();
-		}
+		//if ($this->getUserById($this->user->getId())['users_sysadmin'] === 0) {
+		//	throw new ForbiddenRequestException();
+		//}
 
 		$this->getUserById($userId);
 
