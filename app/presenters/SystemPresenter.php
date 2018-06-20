@@ -47,7 +47,10 @@ class SystemPresenter extends SecurePresenter
 	public function createComponentEditUserFormControl(string $name) : EditUserFormControl
 	{
 		$control = $this->editUserFormControlFactory->create();
-		$control->setId((int)$this->getParameter('id'));
+		if ($this->getParameter('id') !== NULL) {
+			$control->setId((int)$this->getParameter('id'));
+		}
+
 		return $control;
 	}
 

@@ -33,7 +33,7 @@ class EditUserFormControl extends BaseForm
 
 	public function render() : void
 	{
-		if ($this->userId !== NULL && $this->userId !== 0) {
+		if ($this->userId !== NULL) {
 			$user = $this->userModel->getUserById($this->userId);
 			$this['editUserForm']->setDefaults($user);
 		}
@@ -55,7 +55,7 @@ class EditUserFormControl extends BaseForm
 
 	public function editUserFormSucceed(Form $form, ArrayHash $values) : void
 	{
-		if ($this->userId !== NULL && $this->userId !== 0) {
+		if ($this->userId !== NULL) {
 			$this->userModel->updateUser($this->userId, $values['users_login'], $values['users_password'], $values['users_sysadmin']);
 		} else {
 			$this->userModel->createUser($values['users_login'], $values['users_password'], $values['users_sysadmin']);
