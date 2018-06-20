@@ -9,6 +9,7 @@ namespace App\Components\Grids\ExportPersonsDetail;
 use App\Components\Grids\BaseGrid;
 use App\Lib\Helpers;
 use App\Model\ExportModel;
+use App\Model\PersonModel;
 use Dibi\Row;
 use Ublaboo\DataGrid\DataGrid;
 
@@ -18,16 +19,23 @@ class ExportPersonsDetailGrid extends BaseGrid
 	/** @var ExportModel */
 	private $exportModel;
 
+	/** @var PersonModel */
+	private $personModel;
+
 	/** @var int */
 	private $exportsId;
 
 	/** @var array|array[] */
 	private $export;
 
-	public function __construct(ExportModel $exportModel)
+	/** @var bool */
+	private $showModal = FALSE;
+
+	public function __construct(ExportModel $exportModel, PersonModel $personModel)
 	{
 		parent::__construct();
 		$this->exportModel = $exportModel;
+		$this->personModel = $personModel;
 	}
 
 	public function setId(int $id) : void
@@ -38,6 +46,7 @@ class ExportPersonsDetailGrid extends BaseGrid
 
 	public function render() : void
 	{
+		$this->getTemplate()->showModal = $this->showModal;
 		$this->getTemplate()->export = $this->export;
 		$this->getTemplate()->setFile(str_replace('.php', '.latte', __FILE__));
 		$this->getTemplate()->render();
@@ -68,6 +77,19 @@ class ExportPersonsDetailGrid extends BaseGrid
 		$grid->setAutoSubmit(FALSE);
 		$grid->setOuterFilterRendering(TRUE);
 		$grid->addExportCsvFiltered('Export do csv', 'export-' . date('d-m-Y-H-i-s') . '.csv');
+
+		$grid->addAction('showInvoices', '', 'showInvoices', ['id' => 'persons_id'])
+			->setClass('btn btn-default ajax')
+			->setIcon('arrow-right');
+
 		return $grid;
+	}
+
+	public function handleShowInvoices(int $id) : void
+	{
+		$this->getTemplate()->personId = $id;
+		$this->getTemplate()->personInvoices = $this->personModel->getPersonInvoices($id);
+		$this->showModal = TRUE;
+		$this->redrawControl('grid');
 	}
 }

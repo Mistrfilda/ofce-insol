@@ -37,9 +37,53 @@
 		</div>
 	</div>
 </div>
+{snippet grid}
+	{if $showModal}
+		<div class="modal fade" id="person-modal">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title">Smlouvy osoby ID {$personId}</h4>
+					</div>
+					<table class="table table-striped table-hover">
+						<thead>
+						<tr>
+							<th>Nahrano</th>
+							<th>Typ smlovy</th>
+							<th>Platnost od</th>
+							<th>Platnost do</th>
+						</tr>
+						</thead>
+						<tbody>
+						{foreach $personInvoices as $invoice}
+							<tr>
+								<td>{$invoice['invoices_imported_date']}</td>
+								<td>{$invoice['invoices_type']}</td>
+								<td>{$invoice['invoices_from']}</td>
+								<td>{$invoice['invoices_to']}</td>
+							</tr>
+						{/foreach}
+						</tbody>
+					</table>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+            $("#person-modal").modal()
+		</script>
+	{else}
+		<script>
+            $('.modal-backdrop').remove();
+		</script>
+	{/if}
 <div class="row">
 	{control exportPersonsDetailGrid}
 </div>
+{/snippet}
 
 <script>
 	$('.export-grid-filter').on('click', function() {
