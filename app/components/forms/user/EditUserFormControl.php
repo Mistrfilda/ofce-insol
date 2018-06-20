@@ -34,8 +34,8 @@ class EditUserFormControl extends BaseForm
 	public function render() : void
 	{
 		if ($this->userId !== NULL) {
-			$user = $this->userModel->getUserById($this->userId);
-			$this['editUserForm']->setDefaults($user);
+		//	$user = $this->userModel->getUserById($this->userId);
+		//	$this['editUserForm']->setDefaults($user);
 		}
 
 		$this->getTemplate()->setFile(str_replace('.php', '.latte', __FILE__));
