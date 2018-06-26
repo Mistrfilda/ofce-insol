@@ -119,6 +119,7 @@ class ImportModel extends BaseModel
 					$this->logger->log('INVOICE IMPORT', 'Unsupported date (invoice from) - ' . $row['Platnost od']);
 					throw new AppException(AppException::IMPORT_INVOICES_UNSUPPORTED_DATE);
 				}
+				$invoiceFrom = new DateTime($invoiceFrom);
 
 				$invoiceTo = strtotime($row['Platnost do']);
 				if ($invoiceTo === FALSE) {
@@ -126,19 +127,20 @@ class ImportModel extends BaseModel
 					$this->logger->log('INVOICE IMPORT', 'Unsupported date - (invoice to) ' . $row['Platnost do']);
 					throw new AppException(AppException::IMPORT_INVOICES_UNSUPPORTED_DATE);
 				}
+				$invoiceTo = new DateTime($invoiceTo);
 
 				$this->database->query('INSERT into invoices', [
 					'invoices_persons_birth_id' => $row['Rodné číslo'],
-					'invoices_from' => new DateTime($invoiceFrom),
-					'invoices_to' => new DateTime($invoiceTo),
-					'invoices_type' => $row['Typ smlouvy'],
+					'invoices_from' => $invoiceFrom,
+					'invoices_to' => $invoiceTo,
 					'invoices_imported_date' => $this->datetimeProvider->getNow(),
 					'invoices_persons_system_id' => $row['Id osoby'],
+					'invoices_type' => $row['Typ smlouvy'],
 					'invoices_system_id' => $row['Číslo prac. smlouvy']
 				]);
 
 				$invoiceId = $this->database->getInsertId();
-				$this->personModel->updatePersonInvoice($row['Rodné číslo'], (int)$row['Id osoby'], $invoiceId);
+				$this->personModel->updatePersonInvoice($row['Rodné číslo'], (int)$row['Id osoby'], $invoiceId, $invoiceTo);
 			}
 			$this->database->commit();
 

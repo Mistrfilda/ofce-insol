@@ -7,6 +7,7 @@ namespace App\Model;
 
 
 use App\Lib\AppException;
+use Dibi\DateTime;
 use Dibi\Exception;
 use Dibi\Fluent;
 use Dibi\Row;
@@ -34,11 +35,43 @@ class PersonModel extends BaseModel
 		return (array) $data;
 	}
 
-	public function updatePersonInvoice(string $personBirthId, int $personAgId, int $invoiceId) : void
+	public function updatePersonInvoice(string $personBirthId, int $personAgId, int $invoiceId, DateTime $invoiceTo) : void
 	{
+		try {
+			$actualInvoice = $this->getActualPersonInvoiceByBirthId($personBirthId);
+		} catch (AppException $e) {
+			if ($e->getCode() === AppException::PERSON_UNKNOWN_PERSON) {
+				return;
+			}
+
+			throw $e;
+		}
+
+		if ($actualInvoice['invoices_to'] !== NULL && $actualInvoice['invoices_to'] > $invoiceTo) {
+			return;
+		}
+
 		$this->database->query('UPDATE persons set persons_actual_invoice_id = %i, persons_ag_id = %i where persons_birth_id = %s', $invoiceId, $personAgId, $personBirthId);
 
 		$this->logger->log('PERSON INVOICE UPDATE', 'Person: ' . $personBirthId . ', AgID: ' . $personAgId . ', InvoiceID: ' . $invoiceId);
+	}
+
+
+	/**
+	 * @param null|string $personBirthId
+	 * @return array|mixed[]
+	 * @throws AppException
+	 * @throws Exception
+	 */
+	public function getActualPersonInvoiceByBirthId(?string $personBirthId) : array
+	{
+		$data = $this->database->query('SELECT * from persons left join invoices on persons_actual_invoice_id = invoices_id where persons_birth_id = %s', $personBirthId)->fetch();
+
+		if ($data === NULL) {
+			throw new AppException(AppException::PERSON_UNKNOWN_PERSON);
+		}
+
+		return (array) $data;
 	}
 
 	/**
