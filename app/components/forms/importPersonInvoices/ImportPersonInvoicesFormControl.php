@@ -19,6 +19,12 @@ class ImportPersonInvoicesFormControl extends BaseForm
 	/** @var ImportModel */
 	private $importModel;
 
+	/** @var array|mixed[] */
+	private $log = [];
+
+	/** @var bool */
+	private $showModal = FALSE;
+
 	public function __construct(ImportModel $importModel)
 	{
 		parent::__construct();
@@ -27,6 +33,8 @@ class ImportPersonInvoicesFormControl extends BaseForm
 
 	public function render() : void
 	{
+		$this->getTemplate()->showModal = $this->showModal;
+		$this->getTemplate()->log = $this->log;
 		$this->getTemplate()->setFile(str_replace('.php', '.latte', __FILE__));
 		$this->getTemplate()->render();
 	}
@@ -70,14 +78,7 @@ class ImportPersonInvoicesFormControl extends BaseForm
 			throw $e;
 		}
 
-		if ($result === 0) {
-			$this['importPersonInvoicesForm']->addError('Nepodarilo se nahrat zadnou novou smlouvu, zkontrolujte zdroj!');
-			$this->presenter->flashMessage('Nepodarilo se nahrat zadnou novou smlouvu, zkontrolujte zdroj!', 'danger');
-			return;
-		}
-
-		$this->presenter->flashMessage($result . ' smluv uspesne nahrano!', 'success');
-		$this->presenter->redirect('Invoices:default');
-
+		$this->log = $result;
+		$this->showModal = TRUE;
 	}
 }

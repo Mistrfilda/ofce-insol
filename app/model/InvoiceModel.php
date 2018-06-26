@@ -16,7 +16,9 @@ class InvoiceModel extends BaseModel
 		return $this->database->select('*')->from('invoices');
 	}
 
-	/** @return array|int[] */
+	/**
+	 * @return array|int[]
+	 */
 	public function getInvoicesBySystemId() : array
 	{
 		return $this->database->query('SELECT * from invoices')->fetchPairs('invoices_system_id', 'invoices_id');

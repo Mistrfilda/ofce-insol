@@ -1,2 +1,4 @@
 app/config/config.local.neon
 vendor/*
+
+tests/tests.local.neon

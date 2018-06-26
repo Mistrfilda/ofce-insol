@@ -16,6 +16,12 @@ use Nette\Utils\Strings;
 
 class ImportPersonsFormControl extends BaseForm
 {
+	/** @var array|mixed[] */
+	private $log = [];
+
+	/** @var bool */
+	private $showModal = FALSE;
+
 	/** @var ImportModel */
 	private $importModel;
 
@@ -27,6 +33,8 @@ class ImportPersonsFormControl extends BaseForm
 
 	public function render() : void
 	{
+		$this->getTemplate()->showModal = $this->showModal;
+		$this->getTemplate()->log = $this->log;
 		$this->getTemplate()->setFile(str_replace('.php', '.latte', __FILE__));
 		$this->getTemplate()->render();
 	}
@@ -66,14 +74,7 @@ class ImportPersonsFormControl extends BaseForm
 			throw $e;
 		}
 
-		if ($result === 0) {
-			$this['importPersonsForm']->addError('Nepodarilo se nahrat zadnou novou osobu, zkontrolujte zdroj!');
-			$this->presenter->flashMessage('Nepodarilo se nahrat zadnou novou osobu, zkontrolujte zdroj!', 'danger');
-			return;
-		}
-
-		$this->presenter->flashMessage($result . ' osob uspesne nahrano!', 'success');
-		$this->presenter->redirect('Persons:default');
-
+		$this->log = $result;
+		$this->showModal = TRUE;
 	}
 }

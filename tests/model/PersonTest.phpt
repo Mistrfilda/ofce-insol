@@ -35,16 +35,13 @@ class PersonTest extends BaseTest
 	public function testImportPersons()
 	{
 		$this->database->commit();
-		Assert::exception(function () {
-			$this->importModel->importPersons(file_get_contents('../files/person_missing_data.csv'));
-		}, AppException::class, 'Ročník/Datum', AppException::IMPORT_MISSING_MANDATORY_VALUE);
-
 		$file = file_get_contents('../files/person_import.csv');
 		$importedPersons = $this->importModel->importPersons($file);
-		Assert::equal(5, $importedPersons);
+		Assert::equal(4, $importedPersons['imported_count']);
+		Assert::count(1, $importedPersons['skipped_columns']);
 
 		$persons = $this->personModel->getPersons();
-		Assert::count(5, $persons);
+		Assert::count(4, $persons);
 
 	}
 
@@ -53,7 +50,7 @@ class PersonTest extends BaseTest
 		$this->database->commit();
 		$file = file_get_contents('../files/single_person_import.csv');
 		$importedPersons = $this->importModel->importPersons($file);
-		Assert::equal(1, $importedPersons);
+		Assert::equal(1, $importedPersons['imported_count']);
 
 		$personsFluentCount = $this->personModel->getFluentBuilder()->fetchAll();
 		Assert::count(1, $personsFluentCount);
@@ -76,7 +73,7 @@ class PersonTest extends BaseTest
 		$invoiceFile = file_get_contents('../files/invoice_import_2.csv');
 		$importedInvoices = $this->importModel->importPersonInvoices($invoiceFile);
 
-		Assert::equal(2, $importedInvoices);
+		Assert::equal(3, $importedInvoices['imported_count']);
 
 		$person = $this->personModel->getPerson($testPerson['persons_id']);
 		Assert::notEqual(NULL, $person['persons_actual_invoice_id']);
