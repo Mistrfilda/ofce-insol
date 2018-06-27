@@ -6,6 +6,7 @@ Tester\Environment::setup();
 
 $configurator = new Nette\Configurator();
 
+$configurator->setDebugMode(TRUE);
 $configurator->enableTracy(__DIR__ . '/log');
 
 $configurator->setTimeZone('Europe/Prague');
