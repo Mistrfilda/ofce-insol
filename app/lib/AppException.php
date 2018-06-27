@@ -28,6 +28,9 @@ class AppException extends \Exception
 	const
 		PERSON_UNKNOWN_PERSON = 40;
 
+	const
+		INVOICE_UNKNOWN_INVOICE = 50;
+
 
 	public function __construct(int $code = 0, string $message = "", ?Throwable $previous = NULL)
 	{

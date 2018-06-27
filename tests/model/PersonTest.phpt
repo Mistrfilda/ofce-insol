@@ -35,10 +35,15 @@ class PersonTest extends BaseTest
 	public function testImportPersons()
 	{
 		$this->database->commit();
+		$file = file_get_contents('../files/blank_person_import.csv');
+		$importedPersons = $this->importModel->importPersons($file);
+		Assert::equal([], $importedPersons);
 		$file = file_get_contents('../files/person_import.csv');
 		$importedPersons = $this->importModel->importPersons($file);
 		Assert::equal(4, $importedPersons['imported_count']);
-		Assert::count(1, $importedPersons['skipped_columns']);
+		Assert::count(2, $importedPersons['skipped_columns']);
+		Assert::equal(6, $importedPersons['skipped_columns'][0]['index']);
+		Assert::equal(7, $importedPersons['skipped_columns'][1]['index']);
 
 		$persons = $this->personModel->getPersons();
 		Assert::count(4, $persons);
@@ -73,7 +78,7 @@ class PersonTest extends BaseTest
 		$invoiceFile = file_get_contents('../files/invoice_import_2.csv');
 		$importedInvoices = $this->importModel->importPersonInvoices($invoiceFile);
 
-		Assert::equal(3, $importedInvoices['imported_count']);
+		Assert::equal(2, $importedInvoices['imported_count']);
 
 		$person = $this->personModel->getPerson($testPerson['persons_id']);
 		Assert::notEqual(NULL, $person['persons_actual_invoice_id']);

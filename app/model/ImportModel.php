@@ -45,6 +45,19 @@ class ImportModel extends BaseModel
 	}
 
 	/**
+	 * @return array|mixed[]
+	 */
+	public function getImport(int $importId) : array
+	{
+		$import = $this->database->query('SELECT * from imports where imports_id = %i', $importId)->fetch();
+		if ($import === NULL) {
+			throw new AppException(AppException::IMPORT_UNKNOWN_IMPORT);
+		}
+
+		return (array) $import;
+	}
+
+	/**
 	 * @param string $fileContents
 	 * @return array|mixed[]
 	 * @throws AppException
@@ -129,10 +142,6 @@ class ImportModel extends BaseModel
 		$csvParser->parse($fileContents);
 		$data = $csvParser->data;
 		$this->logger->log('INVOICE IMPORT', 'File successfully parsed');
-
-		if (count($data) < 0) {
-			throw new AppException(AppException::IMPORT_NO_ROWS);
-		}
 
 		$currentInvoices = $this->invoiceModel->getInvoicesBySystemId();
 
@@ -234,18 +243,6 @@ class ImportModel extends BaseModel
 		]);
 	}
 
-	/**
-	 * @return array|mixed[]
-	 */
-	public function getImport(int $importId) : array
-	{
-		$import = $this->database->query('SELECT * from imports where imports_id = %i', $importId)->fetch();
-		if ($import === NULL) {
-			throw new AppException(AppException::IMPORT_UNKNOWN_IMPORT);
-		}
-
-		return (array) $import;
-	}
 
 	/**
 	 * @param array|mixed[] $row
