@@ -17,7 +17,8 @@ class AppException extends \Exception
 		IMPORT_DATABASE_ERROR = 20,
 		IMPORT_NO_ROWS = 21,
 		IMPORT_INVOICES_UNSUPPORTED_DATE = 22,
-		IMPORT_MISSING_MANDATORY_VALUE = 23;
+		IMPORT_MISSING_MANDATORY_VALUE = 23,
+		IMPORT_UNKNOWN_IMPORT = 24;
 
 	const
 		EXPORT_UNKNOWN_EXPORT = 30,
@@ -26,6 +27,7 @@ class AppException extends \Exception
 
 	const
 		PERSON_UNKNOWN_PERSON = 40;
+
 
 	public function __construct(int $code = 0, string $message = "", ?Throwable $previous = NULL)
 	{

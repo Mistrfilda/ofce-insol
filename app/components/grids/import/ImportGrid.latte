@@ -1,0 +1,10 @@
+{snippet}
+	{if $showModal}
+		{include '../../../lib/templates/importResult.latte', 'log' => $log}
+	{else}
+		<script>
+            $('.modal-backdrop').remove();
+		</script>
+	{/if}
+	{control importGrid}
+{/snippet}

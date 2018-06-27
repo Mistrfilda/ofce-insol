@@ -62,3 +62,4 @@ services:
 	- App\Components\Grids\Invoices\InvoicesGridFactory
 	- App\Components\Grids\Log\LogGridFactory
 	- App\Components\Grids\Users\UsersGridFactory
+	- App\Components\Grids\Import\ImportGridFactory

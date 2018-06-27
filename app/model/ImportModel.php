@@ -9,6 +9,7 @@ namespace App\Model;
 use App\Lib\AppException;
 use Dibi\DateTime;
 use Dibi\Exception;
+use Dibi\Fluent;
 use Nette\Utils\Strings;
 
 
@@ -38,6 +39,10 @@ class ImportModel extends BaseModel
 		$this->invoiceModel = $invoiceModel;
 	}
 
+	public function getFluentBuilder() : Fluent
+	{
+		return $this->database->select('*')->from('imports');
+	}
 
 	/**
 	 * @param string $fileContents
@@ -227,6 +232,19 @@ class ImportModel extends BaseModel
 			'imports_type' => $type,
 			'imports_log' => json_encode($log)
 		]);
+	}
+
+	/**
+	 * @return array|mixed[]
+	 */
+	public function getImport(int $importId) : array
+	{
+		$import = $this->database->query('SELECT * from imports where imports_id = %i', $importId)->fetch();
+		if ($import === NULL) {
+			throw new AppException(AppException::IMPORT_UNKNOWN_IMPORT);
+		}
+
+		return (array) $import;
 	}
 
 	/**
