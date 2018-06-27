@@ -4,9 +4,12 @@ parameters:
 		- %rootDir%/../../../app
 	excludes_analyse:
 		- %rootDir%/../../../app/presenters/Error4xxPresenter.php
+		- %rootDir%/../../../app/presenters/ErrorPresenter.php
 	ignoreErrors:
-		- '#Method Dibi\\Fluent::from\(\) invoked with 1 parameter, at least 2 required.#'
+		#- '#Method Dibi\\Fluent::from\(\) invoked with 1 parameter, at least 2 required.#'
 		- '#Call to an undefined method SoapClient::getIsirWsCuzkData\(\).#'
+		- '#Call to an undefined method Nette\\ComponentModel\\IComponent\:\:setDefaults\(\).#'
+		- '#Call to an undefined method Nette\\ComponentModel\\IComponent\:\:addError\(\).#'
 
 
 includes:

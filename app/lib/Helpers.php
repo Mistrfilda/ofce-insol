@@ -9,7 +9,7 @@ namespace App\Lib;
 class Helpers
 {
 	/**
-	 * @return array|array[]
+	 * @return array|int[]|int[]
 	 */
 	public static function getGridYears(int $start, int $end) : array
 	{

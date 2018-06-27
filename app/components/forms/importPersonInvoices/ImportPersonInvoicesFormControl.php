@@ -52,6 +52,7 @@ class ImportPersonInvoicesFormControl extends BaseForm
 	public function validateImportPersonInvoicesForm(Form $form) : void
 	{
 		$file = $form->getValues()['file'];
+		/** @var array $fileInfo */
 		$fileInfo = pathinfo($file->getName());
 		if ($fileInfo['extension'] === NULL || Strings::lower($fileInfo['extension']) !== 'csv') {
 			$form->addError('Nepodporovany typ souboru, nahrajte prosim csv soubor');
@@ -61,7 +62,12 @@ class ImportPersonInvoicesFormControl extends BaseForm
 
 	public function importPersonInvoicesFormSucceed(Form $form, ArrayHash $values) : void
 	{
-		$fileContents = file_get_contents($values['file']->getTemporaryFile());
+		$fileContents = @file_get_contents($values['file']->getTemporaryFile());
+		if ($fileContents === FALSE) {
+			$this['exportPersonsForm']->addError('Nepodarilo se nahrat soubor, zkuste to prosim znovu!');
+			$this->presenter->flashMessage('Nepodarilo se nahrat soubor, zkuste to prosim znovu!', 'danger');
+			return;
+		}
 
 		try {
 			$result = $this->importModel->importPersonInvoices($fileContents);
