@@ -23,6 +23,7 @@ class LoginFormControl extends BaseForm
 	public function createComponentLoginForm() : Form
 	{
 		$form = $this->createForm();
+		$form->addProtection();
 		$form->addText('login', 'Login')->setRequired();
 		$form->addPassword('password', 'Heslo')->setRequired();
 		$form->onSuccess[] = [$this, 'loginFormSucceed'];

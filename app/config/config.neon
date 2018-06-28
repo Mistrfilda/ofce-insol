@@ -34,6 +34,9 @@ session:
 	expiration: 14 days
 
 
+tracy:
+	editor: 'phpstorm://open?file=%file&line=%line'
+
 services:
 	authenticator: App\Auth\Authenticator
 	router: App\RouterFactory::createRouter
