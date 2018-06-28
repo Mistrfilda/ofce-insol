@@ -97,7 +97,7 @@ class PersonsGrid extends BaseGrid
 		$this->redrawControl();
 	}
 
-	public function checkPerson(int $id, int $status)
+	public function checkPerson(int $id, int $status) : void
 	{
 		$this->personModel->updatePersonChecked($id, $status);
 		$this->presenter->flashMessage('Zmenen status pro osobu ' . $id);
