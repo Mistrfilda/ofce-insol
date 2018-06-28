@@ -65,6 +65,18 @@ class PersonsGrid extends BaseGrid
 		$grid->addColumnDateTime('invoices_from', 'Smlouva platna od')->setFormat('d. m. Y H:i:s')->setFilterDate();
 		$grid->addColumnDateTime('invoices_to', 'Smlouva platna do')->setFormat('d. m. Y H:i:s')->setFilterDate();
 
+		$grid->addColumnStatus('persons_checked', 'Zkontrolovano')
+			->addOption(1, 'Ano')
+			->setIcon('check')
+			->setClass('btn-success')
+			->endOption()
+			->addOption(0, 'Ne')
+			->setIcon('times')
+			->setClass('btn-danger')
+			->endOption()
+			->onChange[] = [$this, 'checkPerson'];
+
+
 		$grid->addAction('showInvoices', '', 'showInvoices', ['id' => 'persons_id'])
 			->setClass('btn btn-default ajax')
 			->setIcon('arrow-right');
@@ -83,5 +95,12 @@ class PersonsGrid extends BaseGrid
 		$this->getTemplate()->personInvoices = $this->personModel->getPersonInvoices($id);
 		$this->showModal = TRUE;
 		$this->redrawControl();
+	}
+
+	public function checkPerson(int $id, int $status)
+	{
+		$this->personModel->updatePersonChecked($id, $status);
+		$this->presenter->flashMessage('Zmenen status pro osobu ' . $id);
+		$this->getComponent('personsGrid')->reload();
 	}
 }

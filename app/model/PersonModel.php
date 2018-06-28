@@ -94,4 +94,10 @@ class PersonModel extends BaseModel
 	{
 		return $this->database->query('SELECT persons_birth_id from persons where persons_id = %i', $personId)->fetchSingle();
 	}
+
+	public function updatePersonChecked(int $personId, int $checked) : void
+	{
+		$this->getPerson($personId);
+		$this->database->query('UPDATE persons set persons_checked = %i where persons_id = %i', $checked, $personId);
+	}
 }

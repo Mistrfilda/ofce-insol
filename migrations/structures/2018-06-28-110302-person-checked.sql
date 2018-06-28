@@ -1,0 +1,1 @@
+ALTER TABLE `persons` ADD COLUMN `persons_checked` TINYINT NULL DEFAULT 0;

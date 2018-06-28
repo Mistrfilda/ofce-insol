@@ -87,6 +87,25 @@ class PersonTest extends BaseTest
 		Assert::count(1, $personInvoices);
 	}
 
+	public function testPersonChecked()
+	{
+		$this->database->commit();
+		$file = file_get_contents('../files/single_person_import.csv');
+		$importedPersons = $this->importModel->importPersons($file);
+		Assert::equal(1, $importedPersons['imported_count']);
+
+		$persons = $this->personModel->getPersons();
+		Assert::count(1, $persons);
+
+		$testPerson = array_pop($persons);
+		$person = $this->personModel->getPerson($testPerson['persons_id']);
+		Assert::equal(0, $person['persons_checked']);
+		$this->personModel->updatePersonChecked($person['persons_id'], 1);
+
+		$person = $this->personModel->getPerson($testPerson['persons_id']);
+		Assert::equal(1, $person['persons_checked']);
+	}
+
 	public function tearDown()
 	{
 		parent::tearDown();
