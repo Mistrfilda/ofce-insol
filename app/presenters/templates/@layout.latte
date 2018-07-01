@@ -48,6 +48,7 @@
 
 <body>
 
+{snippet flashes}
 {foreach $flashes as $flash}
 	<script>
         $.notify({
@@ -64,6 +65,7 @@
         });
 	</script>
 {/foreach}
+{/snippet}
 
 {if $user->isLoggedIn()}
 <div id="wrapper">
