@@ -46,6 +46,7 @@ services:
 	- App\Model\ExportModel
 	- App\Model\InvoiceModel
 	- App\Model\LogModel
+	- App\Model\StatisticsModel
 
 	##LIB
 	- App\Lib\DatetimeProvider
@@ -66,3 +67,6 @@ services:
 	- App\Components\Grids\Log\LogGridFactory
 	- App\Components\Grids\Users\UsersGridFactory
 	- App\Components\Grids\Import\ImportGridFactory
+
+	##OTHER COMPONENTS
+	- App\Components\Other\HomepageStatisticsControlFactory
