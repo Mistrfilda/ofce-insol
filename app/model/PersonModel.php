@@ -99,5 +99,6 @@ class PersonModel extends BaseModel
 	{
 		$this->getPerson($personId);
 		$this->database->query('UPDATE persons set persons_checked = %i where persons_id = %i', $checked, $personId);
+		$this->logger->log('PERSON CHECK STATUS UPDATE', 'Person: ' . $personId . ', changed status to ' . $checked);
 	}
 }
