@@ -110,11 +110,18 @@
 	</nav>
 	{/if}
 
+	{ifset content}
 	<div id="page-wrapper">
 		<div class="container-fluid">
 			{include content}
 		</div>
 	</div>
+	{/ifset}
+
+	{ifset contentBlank}
+		{include contentBlank}
+	{/ifset}
+
 </div>
 <script>
     $.nette.init();

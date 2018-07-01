@@ -10,6 +10,7 @@ use App\Components\Forms\BaseForm;
 use Nette\Application\UI\Form;
 use Nette\Security\AuthenticationException;
 use Nette\Utils\ArrayHash;
+use Tomaj\Form\Renderer\BootstrapVerticalRenderer;
 
 
 class LoginFormControl extends BaseForm
@@ -23,6 +24,7 @@ class LoginFormControl extends BaseForm
 	public function createComponentLoginForm() : Form
 	{
 		$form = $this->createForm();
+		$form->setRenderer(new BootstrapVerticalRenderer());
 		$form->addText('login', 'Login')->setRequired();
 		$form->addPassword('password', 'Heslo')->setRequired();
 		$form->onSuccess[] = [$this, 'loginFormSucceed'];

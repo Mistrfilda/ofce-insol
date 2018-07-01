@@ -1,9 +1,31 @@
-{block content}
-	<div class="row">
-		<div class="col-md-3"></div>
-		<div class="col-md-6 center-block login-form">
-			{control loginForm}
+{block contentBlank}
+	<style>
+		body {
+			background-color: #ccc;
+		}
+
+		.panel-heading {
+			background-color: black!important;
+		}
+
+		.panel-primary {
+			border-color: black;
+		}
+
+	</style>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3 text-center">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h3 class="panel-title">Přihlásit se</h3>
+					</div>
+					<div class="panel-body">
+						{control loginForm}
+					</div>
+				</div>
+			</div>
 		</div>
-		<div class="col-md-3"></div>
 	</div>
 {/block}
+
