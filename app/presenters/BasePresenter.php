@@ -42,7 +42,10 @@ abstract class BasePresenter extends Presenter
 		$this->getPresenter()->redirect('Login:default');
 	}
 
-	private function buildMenu()
+	/**
+	 * @return array|mixed[]
+	 */
+	private function buildMenu() : array
 	{
 		$menu = [
 			'homepage' => [
@@ -81,7 +84,7 @@ abstract class BasePresenter extends Presenter
 		return $menu;
 	}
 
-	public function isPresenterCurrent(string $menuKey)
+	public function isPresenterCurrent(string $menuKey) : bool
 	{
 		if (Strings::lower($this->getName()) === $menuKey) {
 			return TRUE;
