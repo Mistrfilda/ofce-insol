@@ -55,17 +55,17 @@ abstract class BasePresenter extends Presenter
 			],
 			'import' => [
 				'label' => 'Import',
-				'icon' => 'fa-user',
+				'icon' => 'fa-upload',
 				'link' => 'Import:default'
 			],
 			'persons' => [
 				'label' => 'Osoby',
-				'icon' => 'fa-user',
+				'icon' => 'fa-users',
 				'link' => 'Persons:default'
 			],
 			'export' => [
 				'label' => 'Export',
-				'icon' => 'fa-arrow-right',
+				'icon' => 'fa-file',
 				'link' => 'Export:default'
 			],
 			'invoices' => [
