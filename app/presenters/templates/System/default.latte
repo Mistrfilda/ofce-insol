@@ -1,18 +1,31 @@
 {block content}
-<div class="row">
-	<div class="col-md-12">
-		<h1>Log</h1>
+	<div class="row">
+		<div class="col-lg-12">
+			<h1 class="page-header">
+				System
+			</h1>
+		</div>
 	</div>
-	{control logGrid}
-</div>
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="alert alert-info page-subheading">
+				Log
+			</div>
+		</div>
+		{control logGrid}
+	</div>
 
-<div class="row">
-	<div class="col-md-12">
-		<h1>Users</h1>
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="alert alert-info page-subheading">
+				Users
+			</div>
+		</div>
+		<div class="col-md-12">
+			<div class="alert alert-buttons page-subheading">
+			<a n:href="newUser" class="btn btn-primary"><i class="fa fa-plus"></i> New user</a>
+			</div>
+		</div>
+		{control usersGrid}
 	</div>
-	<div class="col-md-12">
-		<a n:href="newUser" class="btn btn-primary"><i class="fa fa-plus"></i> New user</a>
-	</div>
-	{control usersGrid}
-</div>
 {/block}

@@ -1,10 +1,17 @@
 {block content}
 	<div class="row">
-		<div class="col-md-3">
-			<a n:href="export" class="btn btn-primary">Novy export</a>
+		<div class="col-lg-12">
+			<h1 class="page-header">
+				Export
+			</h1>
 		</div>
 	</div>
 	<div class="row">
+		<div class="col-md-12">
+			<div class="alert alert-buttons page-subheading">
+				<a n:href="export" class="btn btn-primary">Novy export</a>
+			</div>
+		</div>
 		{control exportPersonsGrid}
 	</div>
 {/block}

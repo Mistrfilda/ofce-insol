@@ -9,3 +9,13 @@
 .login-form {
     margin-top: 100px;
 }
+
+.page-subheading {
+    font-size: 18px;
+}
+
+.alert-buttons {
+    color: #31708f;
+    background-color: #f9f9f9;
+    border-color: #33333321;
+}
