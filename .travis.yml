@@ -17,7 +17,7 @@ before_script:
 script:
   - vendor/bin/phpstan analyse app -c phpstan.neon  -l 7
   - vendor/bin/phpcs --standard=ruleset.xml --extensions=php --encoding=utf-8 --tab-width=4 -sp app
-  - php vendor/nette/tester/src/tester.php -p php -C tests/ --coverage coverage.xml --coverage-src app/model
+  - php vendor/nette/tester/src/tester.php -p php -C tests/ --coverage ./coverage.xml --coverage-src ./app/model
 
 after_script:
   - wget https://github.com/satooshi/php-coveralls/releases/download/v1.0.1/coveralls.phar
