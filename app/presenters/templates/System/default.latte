@@ -12,7 +12,11 @@
 				Log
 			</div>
 		</div>
-		{control logGrid}
+	</div>
+	<div class="row">
+		<div class="table-responsive">
+			{control logGrid}
+		</div>
 	</div>
 
 	<div class="row">
@@ -23,9 +27,14 @@
 		</div>
 		<div class="col-md-12">
 			<div class="alert alert-buttons page-subheading">
-			<a n:href="newUser" class="btn btn-primary"><i class="fa fa-plus"></i> New user</a>
+				<a n:href="newUser" class="btn btn-primary"><i class="fa fa-plus"></i> New user</a>
 			</div>
 		</div>
-		{control usersGrid}
+	</div>
+
+	<div class="row">
+		<div class="table-responsive">
+			{control usersGrid}
+		</div>
 	</div>
 {/block}

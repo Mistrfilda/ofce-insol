@@ -11,12 +11,12 @@
 			<div class="panel-heading">
 				<h3 class="panel-title">Zakladni informace</a></h3>
 			</div>
-				<ul class="list-group" id="mainInfo">
-					<li class="list-group-item">Zadano uzivatelem: {$export['users_login']}</li>
-					<li class="list-group-item">Datum: {$export['exports_time']}</li>
-					<li class="list-group-item">Pocet polozek: {count($export['conditions'])}</li>
-				</ul>
-			</div>
+			<ul class="list-group" id="mainInfo">
+				<li class="list-group-item">Zadano uzivatelem: {$export['users_login']}</li>
+				<li class="list-group-item">Datum: {$export['exports_time']}</li>
+				<li class="list-group-item">Pocet polozek: {count($export['conditions'])}</li>
+			</ul>
+		</div>
 	</div>
 	<div class="col-md-6">
 		<div class="panel panel-info">
@@ -36,7 +36,10 @@
 					<tr>
 						<th>{$condition['exports_persons_persons_birth_id']}</th>
 						<th>{$condition['exports_persons_persons_company_id']}</th>
-						<th><a class="btn btn-primary export-grid-filter" data-birth-id="{$condition['exports_persons_persons_birth_id']}" data-company-id="{$condition['exports_persons_persons_company_id']}"><i class="fa fa-arrow-right"></i></a></th>
+						<th><a class="btn btn-primary export-grid-filter"
+							   data-birth-id="{$condition['exports_persons_persons_birth_id']}"
+							   data-company-id="{$condition['exports_persons_persons_company_id']}"><i
+										class="fa fa-arrow-right"></i></a></th>
 					</tr>
 				{/foreach}
 				</tbody>
@@ -87,26 +90,28 @@
             $('.modal-backdrop').remove();
 		</script>
 	{/if}
-<div class="row">
-	{control exportPersonsDetailGrid}
-</div>
+	<div class="row">
+		<div class="table-responsive">
+			{control exportPersonsDetailGrid}
+		</div>
+	</div>
 {/snippet}
 
 <script>
-	$('.export-grid-filter').on('click', function() {
+    $('.export-grid-filter').on('click', function () {
         $('#frm-exportPersonsDetailGrid-exportPersonsDetailGrid-filter-filter-persons_birth_id').val('');
         $('#frm-exportPersonsDetailGrid-exportPersonsDetailGrid-filter-filter-persons_company_id').val('');
 
         var birthId = $(this).attr('data-birth-id');
         var companyId = $(this).attr('data-company-id');
         if (birthId !== '') {
-			$('#frm-exportPersonsDetailGrid-exportPersonsDetailGrid-filter-filter-persons_birth_id').val(birthId);
-		}
+            $('#frm-exportPersonsDetailGrid-exportPersonsDetailGrid-filter-filter-persons_birth_id').val(birthId);
+        }
 
-		if (companyId !== '') {
-			$('#frm-exportPersonsDetailGrid-exportPersonsDetailGrid-filter-filter-persons_company_id').val(companyId);
-		}
+        if (companyId !== '') {
+            $('#frm-exportPersonsDetailGrid-exportPersonsDetailGrid-filter-filter-persons_company_id').val(companyId);
+        }
 
-		$('#frm-exportPersonsDetailGrid-exportPersonsDetailGrid-filter').submit();
-	});
+        $('#frm-exportPersonsDetailGrid-exportPersonsDetailGrid-filter').submit();
+    });
 </script>

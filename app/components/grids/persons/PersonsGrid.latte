@@ -18,12 +18,12 @@
 						</thead>
 						<tbody>
 						{foreach $personInvoices as $invoice}
-						<tr>
-							<td>{$invoice['invoices_imported_date']}</td>
-							<td>{$invoice['invoices_type']}</td>
-							<td>{$invoice['invoices_from']}</td>
-							<td>{$invoice['invoices_to']}</td>
-						</tr>
+							<tr>
+								<td>{$invoice['invoices_imported_date']}</td>
+								<td>{$invoice['invoices_type']}</td>
+								<td>{$invoice['invoices_from']}</td>
+								<td>{$invoice['invoices_to']}</td>
+							</tr>
 						{/foreach}
 						</tbody>
 					</table>
@@ -41,5 +41,5 @@
             $('.modal-backdrop').remove();
 		</script>
 	{/if}
-{control personsGrid}
+	{control personsGrid}
 {/snippet}
