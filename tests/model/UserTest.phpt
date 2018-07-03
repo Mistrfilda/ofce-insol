@@ -12,7 +12,9 @@ use Tester\Assert;
 
 $container = require '../bootstrap.php';
 
-/** @testCase */
+/**
+ * @testCase
+ */
 class UserTest extends BaseTest
 {
 	/** @var UserModel */

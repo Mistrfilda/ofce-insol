@@ -120,7 +120,7 @@ class ImportModel extends BaseModel
 			}
 			$log['imported_count'] = $importedPersons;
 
-			$this->insertImportResult('PERSON', $log);
+			$log['import_id'] = $this->insertImportResult('PERSON', $log);
 			$this->logger->log('PERSON IMPORT', 'Import successfull, count of imported persons - ' . count($inserts));
 			return $log;
 		}
@@ -187,7 +187,8 @@ class ImportModel extends BaseModel
 				if ($invoiceFrom === FALSE) {
 					$this->database->rollback();
 					$this->logger->log('INVOICE IMPORT', 'Unsupported date (invoice from) - ' . $row['Platnost od']);
-					throw new AppException(AppException::IMPORT_INVOICES_UNSUPPORTED_DATE);
+					$log['skipped_columns'][] = ['index' => $rowIndex + 2, 'message' => 'Nepodarilo se zpracovat datum: Planost od'];
+					continue;
 				}
 				$invoiceFrom = new DateTime($invoiceFrom);
 
@@ -195,7 +196,8 @@ class ImportModel extends BaseModel
 				if ($invoiceTo === FALSE) {
 					$this->database->rollback();
 					$this->logger->log('INVOICE IMPORT', 'Unsupported date - (invoice to) ' . $row['Platnost do']);
-					throw new AppException(AppException::IMPORT_INVOICES_UNSUPPORTED_DATE);
+					$log['skipped_columns'][] = ['index' => $rowIndex + 2, 'message' => 'Nepodarilo se zpracovat datum: Planost do'];
+					continue;
 				}
 				$invoiceTo = new DateTime($invoiceTo);
 
@@ -210,6 +212,7 @@ class ImportModel extends BaseModel
 				]);
 
 				$importedInvoices++;
+				$currentInvoices[$row['Číslo prac. smlouvy']] = $row['Číslo prac. smlouvy'];
 
 				$invoiceId = $this->database->getInsertId();
 				$this->personModel->updatePersonInvoice($row['Rodné číslo'], (int)$row['Id osoby'], $invoiceId, $invoiceTo);
@@ -218,7 +221,7 @@ class ImportModel extends BaseModel
 
 			$log['imported_count'] = $importedInvoices;
 
-			$this->insertImportResult('INVOICE', $log);
+			$log['import_id'] = $this->insertImportResult('INVOICE', $log);
 			$this->logger->log('INVOICE IMPORT', 'Import successfull, count of imported invoices - ' . $importedInvoices);
 			return $log;
 		}
@@ -233,7 +236,7 @@ class ImportModel extends BaseModel
 	 * @param array|mixed[] $log
 	 * @throws Exception
 	 */
-	private function insertImportResult(string $type, array $log) : void
+	private function insertImportResult(string $type, array $log) : int
 	{
 		$this->database->query('INSERT into imports', [
 			'imports_time' => $this->datetimeProvider->getNow(),
@@ -241,6 +244,8 @@ class ImportModel extends BaseModel
 			'imports_type' => $type,
 			'imports_log' => json_encode($log)
 		]);
+
+		return $this->database->getInsertId();
 	}
 
 

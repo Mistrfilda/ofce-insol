@@ -12,7 +12,9 @@ use Tester\Assert;
 
 $container = require '../bootstrap.php';
 
-/** @testCase */
+/**
+ * @testCase
+ */
 class InvoiceTest extends BaseTest
 {
 	/** @var ImportModel */
@@ -32,12 +34,12 @@ class InvoiceTest extends BaseTest
 		$this->invoiceModel = $this->container->getByType(InvoiceModel::class);
 		$this->createUser();
 		$this->loginUser();
+		$this->database->commit();
 	}
 
 
 	public function testImportInvoices()
 	{
-		$this->database->commit();
 		$file = file_get_contents('../files/single_person_import.csv');
 		$importedPersons = $this->importModel->importPersons($file);
 		Assert::equal(1, $importedPersons['imported_count']);
@@ -62,22 +64,31 @@ class InvoiceTest extends BaseTest
 		$importedInvoices = $this->importModel->importPersonInvoices($invoiceFile);
 		Assert::equal(4, $importedInvoices['imported_count']);
 
+		$import = $this->importModel->getImport($importedInvoices['import_id']);
+		Assert::equal($this->user->getId(), $import['imports_users_id']);
+		//TODO mock datetime library to check time
+
 		$person = $this->personModel->getFluentBuilder()->fetch();
 		$invoice = $this->invoiceModel->getInvoice($person['persons_actual_invoice_id']);
 		Assert::equal("10000058", $invoice['invoices_system_id']);
 		Assert::equal(new DateTime('1.1.2019'), $invoice['invoices_to']);
+
+		Assert::count(8, $this->invoiceModel->getFluentBuilder()->fetchAll());
+		Assert::count(4, $this->importModel->getFluentBuilder()->fetchAll());
 	}
 
-	public function tearDown()
+	public function testImportWrongInvoiceFile()
 	{
-		parent::tearDown();
-		//need to delete from persons table manually, since transactions are commited in importing, just for localhost :) i am lazy
-		$this->database->query('set foreign_key_checks = 0');
-		$this->database->query('DELETE from users');
-		$this->database->query('DELETE from log');
-		$this->database->query('DELETE from persons');
-		$this->database->query('DELETE from invoices');
-		$this->database->query('set foreign_key_checks = 1');
+		$invoiceFile = file_get_contents('../files/wrong_invoices.csv');
+		$importedInvoices = $this->importModel->importPersonInvoices($invoiceFile);
+		Assert::equal(1, $importedInvoices['imported_count']);
+		Assert::count(3, $importedInvoices['skipped_columns']);
+		Assert::equal(2, $importedInvoices['skipped_columns'][0]['index']);
+		Assert::equal('Nepodarilo se zpracovat datum: Planost od', $importedInvoices['skipped_columns'][0]['message']);
+		Assert::equal(4, $importedInvoices['skipped_columns'][1]['index']);
+		Assert::equal('10000059 - tato smlouva jiz byla naimportovana', $importedInvoices['skipped_columns'][1]['message']);
+		Assert::equal(5, $importedInvoices['skipped_columns'][2]['index']);
+		Assert::equal('Chybi vyplnene povinne pole - Typ smlouvy', $importedInvoices['skipped_columns'][2]['message']);
 	}
 }
 

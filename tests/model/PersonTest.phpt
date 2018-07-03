@@ -105,18 +105,6 @@ class PersonTest extends BaseTest
 		$person = $this->personModel->getPerson($testPerson['persons_id']);
 		Assert::equal(1, $person['persons_checked']);
 	}
-
-	public function tearDown()
-	{
-		parent::tearDown();
-		//need to delete from persons table manually, since transactions are commited in importing, just for localhost :) i am lazy
-		$this->database->query('set foreign_key_checks = 0');
-		$this->database->query('DELETE from users');
-		$this->database->query('DELETE from log');
-		$this->database->query('DELETE from persons');
-		$this->database->query('DELETE from invoices');
-		$this->database->query('set foreign_key_checks = 1');
-	}
 }
 
 (new PersonTest($container))->run();

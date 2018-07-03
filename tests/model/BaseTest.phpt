@@ -59,5 +59,14 @@ abstract class BaseTest extends Tester\TestCase
 	{
 		$this->database->rollback();
 		parent::tearDown();
+
+		$this->database->query('set foreign_key_checks = 0');
+		$this->database->query('DELETE from users');
+		$this->database->query('DELETE from log');
+		$this->database->query('DELETE from persons');
+		$this->database->query('DELETE from invoices');
+		$this->database->query('DELETE FROM imports');
+		$this->database->query('DELETE FROM exports');
+		$this->database->query('set foreign_key_checks = 1');
 	}
 }
