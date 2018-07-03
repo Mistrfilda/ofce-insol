@@ -65,7 +65,7 @@ class ImportPersonsFormControl extends BaseForm
 	{
 		$fileContents = @file_get_contents($values['file']->getTemporaryFile());
 		if ($fileContents === FALSE) {
-			$this['exportPersonsForm']->addError('Nepodarilo se nahrat soubor, zkuste to prosim znovu!');
+			$form->addError('Nepodarilo se nahrat soubor, zkuste to prosim znovu!');
 			$this->presenter->flashMessage('Nepodarilo se nahrat soubor, zkuste to prosim znovu!', 'danger');
 			return;
 		}
@@ -74,7 +74,7 @@ class ImportPersonsFormControl extends BaseForm
 			$result = $this->importModel->importPersons($fileContents);
 		} catch (AppException $e) {
 			if ($e->getCode() === AppException::IMPORT_MISSING_MANDATORY_VALUE) {
-				$this['importPersonsForm']->addError('Chybi povinny parameters - ' . $e->getMessage());
+				$form->addError('Chybi povinny parameters - ' . $e->getMessage());
 				$this->presenter->flashMessage('Chybi povinny parameters - ' . $e->getMessage(), 'danger');
 				return;
 			}

@@ -64,7 +64,7 @@ class ImportPersonInvoicesFormControl extends BaseForm
 	{
 		$fileContents = @file_get_contents($values['file']->getTemporaryFile());
 		if ($fileContents === FALSE) {
-			$this['exportPersonsForm']->addError('Nepodarilo se nahrat soubor, zkuste to prosim znovu!');
+			$form->addError('Nepodarilo se nahrat soubor, zkuste to prosim znovu!');
 			$this->presenter->flashMessage('Nepodarilo se nahrat soubor, zkuste to prosim znovu!', 'danger');
 			return;
 		}
@@ -73,11 +73,11 @@ class ImportPersonInvoicesFormControl extends BaseForm
 			$result = $this->importModel->importPersonInvoices($fileContents);
 		} catch (AppException $e) {
 			if ($e->getCode() === AppException::PERSON_UNKNOWN_PERSON) {
-				$this['importPersonInvoicesForm']->addError('Nezname ID - ' . $e->getMessage());
+				$form->addError('Nezname ID - ' . $e->getMessage());
 				$this->presenter->flashMessage('Nezname ID - ' . $e->getMessage(), 'danger');
 				return;
 			} elseif ($e->getCode() === AppException::IMPORT_MISSING_MANDATORY_VALUE) {
-				$this['importPersonInvoicesForm']->addError('Chybi povinny parameter - ' . $e->getMessage());
+				$form->addError('Chybi povinny parameter - ' . $e->getMessage());
 				$this->presenter->flashMessage('Chybi povinny parameter - ' . $e->getMessage(), 'danger');
 				return;
 			}

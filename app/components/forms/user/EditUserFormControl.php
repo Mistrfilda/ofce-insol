@@ -35,7 +35,9 @@ class EditUserFormControl extends BaseForm
 	{
 		if ($this->userId !== NULL) {
 			$user = $this->userModel->getUserById($this->userId);
-			$this['editUserForm']->setDefaults($user);
+			$this->getComponent('editUserForm')->setDefaults($user);
+		} else {
+			$this->getComponent('editUserForm')->getComponent('users_password')->setRequired();
 		}
 
 		$this->getTemplate()->setFile(str_replace('.php', '.latte', __FILE__));

@@ -56,7 +56,7 @@ class ExportPersonsFormControl extends BaseForm
 	{
 		$fileContents = @file_get_contents($values['file']->getTemporaryFile());
 		if ($fileContents === FALSE) {
-			$this['exportPersonsForm']->addError('Nepodarilo se nahrat soubor, zkuste to prosim znovu!');
+			$form->addError('Nepodarilo se nahrat soubor, zkuste to prosim znovu!');
 			$this->presenter->flashMessage('Nepodarilo se nahrat soubor, zkuste to prosim znovu!', 'danger');
 			return;
 		}
@@ -65,11 +65,11 @@ class ExportPersonsFormControl extends BaseForm
 			$result = $this->exportModel->exportPersons($fileContents);
 		} catch (AppException $e) {
 			if ($e->getCode() === AppException::EXPORT_PERSONS_NO_ROWS) {
-				$this['exportPersonsForm']->addError('Nepodarilo se nahrat zadnou novou osobu, zkontrolujte zdroj!');
+				$form->addError('Nepodarilo se nahrat zadnou novou osobu, zkontrolujte zdroj!');
 				$this->presenter->flashMessage('Nepodarilo se nahrat zadnou novou osobu, zkontrolujte zdroj!', 'danger');
 				return;
 			} elseif ($e->getCode() === AppException::EXPORT_PERSONS_MISSING_MANDATORY_VALUE) {
-				$this['exportPersonsForm']->addError('Chybi povinny parameter - ' . $e->getMessage());
+				$form->addError('Chybi povinny parameter - ' . $e->getMessage());
 				$this->presenter->flashMessage('Chybi povinny parameter - ' . $e->getMessage(),'danger');
 				return;
 			}
