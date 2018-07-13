@@ -8,6 +8,7 @@ namespace App\Components\Forms\ImportPersonsInvoices;
 
 use App\Components\Forms\BaseForm;
 use App\Lib\AppException;
+use App\Lib\Helpers;
 use App\Model\ImportModel;
 use Nette\Application\UI\Form;
 use Nette\Utils\ArrayHash;
@@ -43,6 +44,7 @@ class ImportPersonInvoicesFormControl extends BaseForm
 	{
 		$form = $this->createForm();
 		$form->addUpload('file', 'CSV soubor')->setRequired();
+		$form->addSelect('force_utf8', 'Prevest kodovani (pri importu z excelu)', [0 => 'Ne', 1 => 'Ano'])->setDefaultValue(1);
 		$form->onSuccess[] = [$this, 'importPersonInvoicesFormSucceed'];
 		$form->onValidate[] = [$this, 'validateImportPersonInvoicesForm'];
 		$form->addSubmit('submit', 'Upload');
@@ -67,6 +69,18 @@ class ImportPersonInvoicesFormControl extends BaseForm
 			$form->addError('Nepodarilo se nahrat soubor, zkuste to prosim znovu!');
 			$this->presenter->flashMessage('Nepodarilo se nahrat soubor, zkuste to prosim znovu!', 'danger');
 			return;
+		}
+
+		if ($values['force_utf8']) {
+			try {
+				$fileContents = Helpers::convertToUtfFromWindows1250($fileContents);
+			} catch (AppException $e) {
+				if ($e->getCode() === AppException::HELPERS_GENERAL_ERROR) {
+					$form->addError('Nepodarilo se prevest kodovani, pravdepodne se snazite prevest soubor ktery jiz byl konvertovan!');
+					$this->presenter->flashMessage('Nepodarilo se prevest kodovani, pravdepodne se snazite prevest soubor ktery jiz byl konvertovan!', 'danger');
+					return;
+				}
+			}
 		}
 
 		try {

@@ -68,6 +68,7 @@ class ImportModel extends BaseModel
 		$importedPersons = 0;
 
 		$this->logger->log('PERSON IMPORT', 'Start import');
+		$importId = $this->insertImport('PERSON');
 		$csvParser = $this->getCsvParser();
 		$csvParser->parse($fileContents);
 		$data = $csvParser->data;
@@ -80,7 +81,7 @@ class ImportModel extends BaseModel
 					if ($column === '') {
 						$person[$personKey] = NULL;
 					} else {
-						$person[$personKey] = Strings::trim($column);
+						$person[$personKey] = Strings::trim(Strings::fixEncoding($column));
 					}
 				}
 
@@ -104,7 +105,9 @@ class ImportModel extends BaseModel
 					'persons_year'       => $person['Ročník/Datum'],
 					'persons_company_id' => $person['IČ'],
 					'persons_firstname'  => $person['Jméno'],
-					'persons_lastname'   => $person['Příjmení/Název']
+					'persons_lastname'   => $person['Příjmení/Název'],
+					'persons_imported_on' => $this->datetimeProvider->getNow(),
+					'persons_imports_id' => $importId
 				];
 				$importedPersons++;
 			}
@@ -120,7 +123,7 @@ class ImportModel extends BaseModel
 			}
 			$log['imported_count'] = $importedPersons;
 
-			$log['import_id'] = $this->insertImportResult('PERSON', $log);
+			$log['import_id'] = $this->updateImportLog($importId, $log);
 			$this->logger->log('PERSON IMPORT', 'Import successfull, count of imported persons - ' . count($inserts));
 			return $log;
 		}
@@ -138,6 +141,7 @@ class ImportModel extends BaseModel
 		$importedInvoices = 0;
 
 		$this->logger->log('INVOICE IMPORT', 'Start import');
+		$importId = $this->insertImport('INVOICE');
 		$csvParser = $this->getCsvParser();
 		$csvParser->parse($fileContents);
 		$data = $csvParser->data;
@@ -220,8 +224,8 @@ class ImportModel extends BaseModel
 			$this->database->commit();
 
 			$log['imported_count'] = $importedInvoices;
+			$log['import_id'] = $this->updateImportLog($importId, $log);
 
-			$log['import_id'] = $this->insertImportResult('INVOICE', $log);
 			$this->logger->log('INVOICE IMPORT', 'Import successfull, count of imported invoices - ' . $importedInvoices);
 			return $log;
 		}
@@ -231,21 +235,28 @@ class ImportModel extends BaseModel
 	}
 
 
-	/**
-	 * @param string $type
-	 * @param array|mixed[] $log
-	 * @throws Exception
-	 */
-	private function insertImportResult(string $type, array $log) : int
+	private function insertImport(string $type) : int
 	{
 		$this->database->query('INSERT into imports', [
 			'imports_time' => $this->datetimeProvider->getNow(),
 			'imports_users_id' => $this->user->getId(),
 			'imports_type' => $type,
-			'imports_log' => json_encode($log)
 		]);
 
 		return $this->database->getInsertId();
+	}
+
+	/**
+	 * @param int $importId
+	 * @param array|mixed[] $log
+	 * @return int
+	 * @throws Exception
+	 */
+	private function updateImportLog(int $importId,array $log) : int
+	{
+		$this->database->query('UPDATE imports set imports_log = %s', json_encode($log), 'where imports_id = %i', $importId);
+
+		return $importId;
 	}
 
 

@@ -11,7 +11,11 @@ use Throwable;
 
 class AppException extends \Exception
 {
-	const UNKNOWN_USER = 10;
+	const
+		HELPERS_GENERAL_ERROR = 5;
+
+	const
+		UNKNOWN_USER = 10;
 
 	const
 		IMPORT_DATABASE_ERROR = 20,

@@ -21,4 +21,15 @@ class Helpers
 
 		return $years;
 	}
+
+	public static function convertToUtfFromWindows1250(string $string) : string
+	{
+		$string = @iconv('windows-1250',  'utf-8', $string);
+
+		if ($string === FALSE) {
+			throw new AppException(AppException::HELPERS_GENERAL_ERROR);
+		}
+
+		return $string;
+	}
 }

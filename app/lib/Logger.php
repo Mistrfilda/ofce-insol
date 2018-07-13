@@ -36,7 +36,8 @@ class Logger
 	public function log(string $type, string $message, string $priority = ILogger::INFO, bool $logToMonolog = TRUE, bool $logToDatabase = TRUE) : void
 	{
 		if ($logToMonolog) {
-			$monologMessage = 'User: ' . $this->user->getId() . ' - Type: ' . $type . ' - Message: ' . $message;
+			//$monologMessage = 'User: ' . $this->user->getId() . ' - Type: ' . $type . ' - Message: ' . $message;
+			$monologMessage = sprintf('User: %s - Type: %s - Message: %s', $this->user->getId(), $type, $message);
 			$this->monologLogger->log($monologMessage, $priority);
 		}
 
