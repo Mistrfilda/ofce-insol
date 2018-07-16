@@ -25,7 +25,7 @@ class ImportModel extends BaseModel
 	 * For now hardcoded, possibility in future to set columns from config
 	 * @var array|string[]
 	 */
-	private	$personColumns = ['Rodné číslo', 'Ročník/Datum', 'Jméno', 'Příjmení/Název'];
+	private	$personColumns = ['Rodné číslo', 'Ročník/Datum'];
 
 	/**
 	 * For now hardcoded, possibility in future to set columns from config
@@ -212,7 +212,8 @@ class ImportModel extends BaseModel
 					'invoices_imported_date' => $this->datetimeProvider->getNow(),
 					'invoices_persons_system_id' => $row['Id osoby'],
 					'invoices_type' => $row['Typ smlouvy'],
-					'invoices_system_id' => $row['Číslo prac. smlouvy']
+					'invoices_system_id' => $row['Číslo prac. smlouvy'],
+					'invoices_imports_id' => $importId
 				]);
 
 				$importedInvoices++;
