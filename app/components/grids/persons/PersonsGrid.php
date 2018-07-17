@@ -11,6 +11,7 @@ use App\Lib\Helpers;
 use App\Model\PersonModel;
 use Dibi\DateTime;
 use Dibi\Fluent;
+use Nette\Utils\ArrayHash;
 use Nette\Utils\Strings;
 use Ublaboo\DataGrid\DataGrid;
 
@@ -64,17 +65,33 @@ class PersonsGrid extends BaseGrid
 		});
 
 		$grid->addColumnText('invoices_type', 'Typ smlouvy');
-		$grid->addColumnDateTime('invoices_from', 'Smlouva platna od')->setFormat('d. m. Y H:i:s')->setFilterDate()->setCondition(function(Fluent $fluent, string $value) : void {
+		$grid->addColumnDateTime('invoices_from', 'Smlouva platna od')->setFormat('d. m. Y H:i:s')->setFilterDate();
 
-			$value = Strings::replace($value, '~\ ~', '');
-			$value = Strings::replace($value, '~\.~', '-');
-			$fluent->where('date(invoices_from) >= %d', $value);
-		});
+		$grid->addColumnDateTime('invoices_to', 'Smlouva platna do')->setFormat('d. m. Y H:i:s')->setFilterDate();
 
-		$grid->addColumnDateTime('invoices_to', 'Smlouva platna do')->setFormat('d. m. Y H:i:s')->setFilterDate()->setCondition(function (Fluent $fluent, string $value) : void {
-			$value = Strings::replace($value, '~\ ~', '');
-			$value = Strings::replace($value, '~\.~', '-');
-			$fluent->where('date(invoices_to) <= %d', $value);
+		$grid->addFilterDateRange('invoices_to_range', 'Platnost smlouvy')->setCondition(function (Fluent $fluent,  $value) : void {
+			$from = NULL;
+			$to = NULL;
+
+			if (array_key_exists('from', $value) && $value['from'] !== "") {
+				$from = $value['from'];
+				$from = Strings::replace($from, '~\ ~', '');
+				$from = Strings::replace($from, '~\.~', '-');
+			}
+
+			if (array_key_exists('to', $value) && $value['to'] !== "") {
+				$to = $value['to'];
+				$to = Strings::replace($to, '~\ ~', '');
+				$to = Strings::replace($to, '~\.~', '-');
+			}
+
+			if ($from !== NULL && $to !== NULL) {
+				$fluent->where('date(invoices_from) >= %d and date(invoices_to) >= %d', $from, $to);
+			} elseif ($from !== NULL) {
+				$fluent->where('date(invoices_from) >= %d', $from);
+			} elseif ($to !== NULL) {
+				$fluent->where('date(invoices_to) <= %d', $to);
+			}
 		});
 
 		$grid->addColumnStatus('persons_checked', 'Zkontrolovano')
