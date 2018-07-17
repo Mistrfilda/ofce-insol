@@ -39,7 +39,7 @@ class InvoicesGrid extends BaseGrid
 		$grid->addColumnText('invoices_persons_birth_id', 'Rodne cislo')->setSortable()->setFilterText();
 		$grid->addColumnText('invoices_type', 'Typ smlovy')->setSortable()->setFilterText();
 		$grid->addColumnDateTime('invoices_from', 'Platnost od')->setFormat('d. m. Y H:i:s')->setSortable()->setFilterDate();
-		$grid->addColumnDateTime('invoices_to', 'Platnost od')->setFormat('d. m. Y H:i:s')->setSortable()->setFilterDate();
+		$grid->addColumnDateTime('invoices_to', 'Platnost do')->setFormat('d. m. Y H:i:s')->setSortable()->setFilterDate();
 		$grid->addColumnDateTime('invoices_imported_date', 'Nahrano dne')->setFormat('d. m. Y H:i:s')->setSortable()->setFilterDate();
 		$grid->setOuterFilterRendering(TRUE);
 		$grid->setAutoSubmit(FALSE);
