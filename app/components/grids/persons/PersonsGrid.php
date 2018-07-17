@@ -86,7 +86,7 @@ class PersonsGrid extends BaseGrid
 			}
 
 			if ($from !== NULL && $to !== NULL) {
-				$fluent->where('date(invoices_from) >= %d and date(invoices_to) >= %d', $from, $to);
+				$fluent->where('date(invoices_from) <= %d and date(invoices_to) >= %d', $from, $to);
 			} elseif ($from !== NULL) {
 				$fluent->where('date(invoices_from) >= %d', $from);
 			} elseif ($to !== NULL) {
