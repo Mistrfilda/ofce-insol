@@ -9,7 +9,9 @@ namespace App\Components\Grids\Persons;
 use App\Components\Grids\BaseGrid;
 use App\Lib\Helpers;
 use App\Model\PersonModel;
+use Dibi\DateTime;
 use Dibi\Fluent;
+use Nette\Utils\Strings;
 use Ublaboo\DataGrid\DataGrid;
 
 
@@ -62,8 +64,18 @@ class PersonsGrid extends BaseGrid
 		});
 
 		$grid->addColumnText('invoices_type', 'Typ smlouvy');
-		$grid->addColumnDateTime('invoices_from', 'Smlouva platna od')->setFormat('d. m. Y H:i:s')->setFilterDate();
-		$grid->addColumnDateTime('invoices_to', 'Smlouva platna do')->setFormat('d. m. Y H:i:s')->setFilterDate();
+		$grid->addColumnDateTime('invoices_from', 'Smlouva platna od')->setFormat('d. m. Y H:i:s')->setFilterDate()->setCondition(function(Fluent $fluent, string $value) : void {
+
+			$value = Strings::replace($value, '~\ ~', '');
+			$value = Strings::replace($value, '~\.~', '-');
+			$fluent->where('date(invoices_from) >= %d', $value);
+		});
+
+		$grid->addColumnDateTime('invoices_to', 'Smlouva platna do')->setFormat('d. m. Y H:i:s')->setFilterDate()->setCondition(function (Fluent $fluent, string $value) : void {
+			$value = Strings::replace($value, '~\ ~', '');
+			$value = Strings::replace($value, '~\.~', '-');
+			$fluent->where('date(invoices_to) <= %d', $value);
+		});
 
 		$grid->addColumnStatus('persons_checked', 'Zkontrolovano')
 			->addOption(1, 'Ano')
