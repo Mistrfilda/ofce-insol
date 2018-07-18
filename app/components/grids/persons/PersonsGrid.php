@@ -102,7 +102,7 @@ class PersonsGrid extends BaseGrid
 			(
 			(month(invoices_from) = %i AND year(invoices_from) = %i) OR 
 			(month(invoices_to) = %i AND year(invoices_to) = %i) OR
-			((month(invoices_from) < %i AND year(invoices_from) = %i) AND (month(invoices_from) > %i AND year(invoices_from) = %i)) OR
+			((month(invoices_from) < %i AND year(invoices_from) = %i) AND (month(invoices_to) > %i AND year(invoices_to) = %i)) OR
 			(year(invoices_from) < %i AND (month(invoices_to) > %i AND year(invoices_to) = %i) OR
 			((month(invoices_from) < %i AND year(invoices_from) = %i) AND year(invoices_to) > %i)) OR
 			(year(invoices_from) < %i AND year(invoices_to) > %i)
