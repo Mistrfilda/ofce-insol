@@ -94,7 +94,7 @@ class PersonsGrid extends BaseGrid
 			}
 		});
 
-		$grid->addFilterSelect('invoices_month_select', 'Platnost smlouvy v měsíci', $this->getMonthsSelectOptions())->setCondition(function (Fluent $fluent, $value) : void {
+		$grid->addFilterSelect('invoices_month_select', 'Platnost smlouvy v měsíci', $this->addGridSelect($this->getMonthsSelectOptions()))->setCondition(function (Fluent $fluent, $value) : void {
 			$values = Strings::split($value, '~:~');
 			$year = (int) $values[0];
 			$month = (int) $values[1];
