@@ -98,7 +98,15 @@ class PersonsGrid extends BaseGrid
 			$values = Strings::split($value, '~:~');
 			$year = (int) $values[0];
 			$month = (int) $values[1];
-			$fluent->where('((month(invoices_from) = %i AND year(invoices_from) = %i) OR (month(invoices_to) = %i AND year(invoices_to) = %i) OR (month(invoices_from) <= %i AND month(invoices_to) >= %i AND year(invoices_from) <= %i AND year(invoices_to) >= %i) OR (year(invoices_from) < %i AND year(invoices_to) > %i))', $month, $year, $month, $year, $month, $month, $year, $year, $year, $year);
+			$fluent->where('
+			(
+			(month(invoices_from) = %i AND year(invoices_from) = %i) OR 
+			(month(invoices_to) = %i AND year(invoices_to) = %i) OR
+			((month(invoices_from) < %i AND year(invoices_from) = %i) AND (month(invoices_from) > %i AND year(invoices_from) = %i)) OR
+			(year(invoices_from) < %i AND (month(invoices_to) > %i AND year(invoices_to) = %i) OR
+			((month(invoices_from) < %i AND year(invoices_from) = %i) AND year(invoices_to) > %i)) OR
+			(year(invoices_from) < %i AND year(invoices_to) > %i)
+			)', $month, $year, $month, $year, $month, $year, $month, $year, $year, $month, $year, $month, $year, $year, $year, $year);
 		});
 
 		$grid->addColumnStatus('persons_checked', 'Zkontrolovano')
