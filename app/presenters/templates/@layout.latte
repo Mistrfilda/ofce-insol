@@ -23,6 +23,8 @@
 		  href="{$basePath}/assets/bower_components/ublaboo-datagrid/assets/dist/datagrid-spinners.css">
 	<link rel="stylesheet" type="text/css"
 		  href="{$basePath}/assets/bower_components/bootstrap-select/dist/css/bootstrap-select.css">
+
+	{* Custom CSS *}
 	<link rel="stylesheet" href="{$basePath}/assets/css/sb-admin.css">
 	<link rel="stylesheet" href="{$basePath}/assets/css/custom.css">
 
@@ -32,6 +34,7 @@
 	<script src="{$basePath}/assets/js/nette.ajax.js"></script>
 	<script src="{$basePath}/assets/js/moment.min.js"></script>
 
+	{* Datagrid *}
 	<script src="{$basePath}/assets/bower_components/happy/dist/happy.js"></script>
 	<script src="{$basePath}/assets/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.js"></script>
 	<script src="{$basePath}/assets/bower_components/jquery-ui-sortable/jquery-ui-sortable.js"></script>
@@ -42,6 +45,8 @@
 	<script src="{$basePath}/assets/bower_components/ublaboo-datagrid/assets/dist/datagrid-spinners.js"></script>
 	<!-- Include bootstrap-select.js when using FilterMultiSelect (silviomoreto.github.io/bootstrap-select) -->
 	<script src="{$basePath}/assets/bower_components/bootstrap-select/dist/js/bootstrap-select.js"></script>
+
+	{* Custom JS *}
 	<script src="{$basePath}/assets/js/bootstrap-datetimepicker.min.js"></script>
 	<script src="{$basePath}/assets/js/bootstrap-notify.min.js"></script>
 </head>
@@ -128,7 +133,9 @@
 <script>
     $.nette.init();
     $('.datetime-picker').datetimepicker();
-    $('select').selectpicker({});
+    $('select').selectpicker({
+        liveSearch: true
+	});
 </script>
 
 </body>

@@ -94,6 +94,13 @@ class PersonsGrid extends BaseGrid
 			}
 		});
 
+		$grid->addFilterSelect('invoices_month_select', 'Platnost smlouvy v měsíci', $this->getMonthsSelectOptions())->setCondition(function (Fluent $fluent, $value) : void {
+			$values = Strings::split($value, '~:~');
+			$year = (int) $values[0];
+			$month = (int) $values[1];
+			$fluent->where('((month(invoices_from) = %i AND year(invoices_from) = %i) OR (month(invoices_to) = %i AND year(invoices_to) = %i) OR (month(invoices_from) <= %i AND month(invoices_to) >= %i AND year(invoices_from) <= %i AND year(invoices_to) >= %i) OR (year(invoices_from) < %i AND year(invoices_to) > %i))', $month, $year, $month, $year, $month, $month, $year, $year, $year, $year);
+		});
+
 		$grid->addColumnStatus('persons_checked', 'Zkontrolovano')
 			->addOption(1, 'Ano')
 			->setIcon('check')
@@ -132,5 +139,41 @@ class PersonsGrid extends BaseGrid
 		$this->presenter->flashMessage('Zmenen status pro osobu ' . $id);
 		$this->getComponent('personsGrid')->reload();
 		$this->presenter->redrawControl('flashes');
+	}
+
+	/**
+	 * @return array|string[]
+	 */
+	private function getMonthsSelectOptions() : array
+	{
+		$translatedMonths = [
+			1 => 'Leden',
+			2 => 'Únor',
+			3 => 'Březen',
+			4 => 'Duben',
+			5 => 'Kvetěn',
+			6 => 'Červen',
+			7 => 'Červenec',
+			8 => 'Srpen',
+			9 => 'Září',
+			10 => 'Říjen',
+			11 => 'Listopad',
+			12 => 'Prosinec'
+		];
+
+		$options = [];
+		$startYear = 2010;
+		$endYear = 2025;
+		while ($startYear <= $endYear) {
+			$month = 1;
+			while ($month <= 12) {
+				$options[$startYear . ':' . $month] = $translatedMonths[$month] . ' ' . $startYear;
+				$month = $month + 1;
+			}
+
+			$startYear = $startYear + 1;
+		}
+
+		return $options;
 	}
 }
