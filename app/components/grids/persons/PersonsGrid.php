@@ -170,16 +170,16 @@ class PersonsGrid extends BaseGrid
 		];
 
 		$options = [];
-		$startYear = 2010;
-		$endYear = 2025;
-		while ($startYear <= $endYear) {
-			$month = 1;
-			while ($month <= 12) {
+		$startYear = ((int) date('Y')) + 1;
+		$endYear = 2015;
+		while ($startYear >= $endYear) {
+			$month = 12;
+			while ($month >= 1) {
 				$options[$startYear . ':' . $month] = $translatedMonths[$month] . ' ' . $startYear;
-				$month = $month + 1;
+				$month = $month - 1;
 			}
 
-			$startYear = $startYear + 1;
+			$startYear = $startYear - 1;
 		}
 
 		return $options;
