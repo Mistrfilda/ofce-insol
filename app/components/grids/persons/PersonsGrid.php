@@ -120,6 +120,10 @@ class PersonsGrid extends BaseGrid
 			->endOption()
 			->onChange[] = [$this, 'checkPerson'];
 
+		$grid->addFilterSelect('persons_checked_select', 'Osoba zkontrolována', $this->addGridSelect([0 => 'Ne', 1 => 'Ano']))->setCondition(function (Fluent $fluent, $value) : void {
+			$fluent->where('persons_checked = %i', $value);
+		});
+
 
 		$grid->addAction('showInvoices', '', 'showInvoices', ['id' => 'persons_id'])
 			->setClass('btn btn-default ajax')
