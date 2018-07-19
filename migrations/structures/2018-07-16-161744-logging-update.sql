@@ -1,0 +1,2 @@
+ALTER TABLE `log` ADD COLUMN `log_context` TEXT  NULL DEFAULT NULL;
+

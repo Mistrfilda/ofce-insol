@@ -33,7 +33,7 @@ class UserModel extends BaseModel
 
 		$userId = $this->database->getInsertId();
 
-		$this->logger->log('USER CREATE', 'Created user - ' . $name);
+		$this->logger->log('USER CREATE', sprintf('Created user - %s', $name), ['users_name' => $name, 'users_id' => $userId]);
 
 		return $userId;
 	}
@@ -55,7 +55,7 @@ class UserModel extends BaseModel
 
 		$this->database->query('UPDATE users set', $update, 'where users_id = %i', $userId);
 
-		$this->logger->log('USER UPDATE', 'Updated user - ' . $name);
+		$this->logger->log('USER UPDATE', sprintf('Updated user - %s', $name), ['users_name' => $name, 'users_id' => $userId, 'users_sysadmin' => $sysadmin]);
 	}
 
 

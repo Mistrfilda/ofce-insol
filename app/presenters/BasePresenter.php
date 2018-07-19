@@ -6,6 +6,8 @@ declare(strict_types = 1);
 namespace App\Presenters;
 
 
+use App\Components\Other\CssJsLoaderControl;
+use App\Components\Other\CssJsLoaderControlFactory;
 use App\Model\UserModel;
 use Nette\Application\UI\Presenter;
 use Nette\Utils\Strings;
@@ -19,9 +21,17 @@ abstract class BasePresenter extends Presenter
 	/** @var array|string[]|int[] */
 	protected $appUser;
 
+	/** @var CssJsLoaderControlFactory */
+	private $cssJsLoaderControlFactory;
+
 	public function injectUserModel(UserModel $userModel) : void
 	{
 		$this->userModel = $userModel;
+	}
+
+	public function injectCssJsLoaderControlFactory(CssJsLoaderControlFactory $cssJsLoaderControlFactory) : void
+	{
+		$this->cssJsLoaderControlFactory = $cssJsLoaderControlFactory;
 	}
 
 	protected function startup() : void
@@ -82,6 +92,11 @@ abstract class BasePresenter extends Presenter
 		];
 
 		return $menu;
+	}
+
+	public function createComponentCssJsLoaderControl(string $name) : CssJsLoaderControl
+	{
+		return $this->cssJsLoaderControlFactory->create();
 	}
 
 	public function isPresenterCurrent(string $menuKey) : bool

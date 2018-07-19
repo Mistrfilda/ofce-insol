@@ -1,7 +1,10 @@
-#VERSION 0.1.1
+#VERSION 0.2
 
 parameters:
 
+
+includes:
+	- assets.neon
 
 application:
 	errorPresenter: Error
@@ -52,7 +55,7 @@ services:
 
 	##LIB
 	- App\Lib\DatetimeProvider
-	- App\Lib\Logger
+	- App\Lib\Logger(@monolog.monologLogger)
 
 	##FORMS
 	- App\Components\Forms\Login\LoginFormControlFactory
@@ -72,3 +75,9 @@ services:
 
 	##OTHER COMPONENTS
 	- App\Components\Other\HomepageStatisticsControlFactory
+	-
+		implement: App\Components\Other\CssJsLoaderControlFactory
+		arguments: [%wwwDir%]
+
+	##CONSOLE
+	- App\Console\WebloaderCommand(%wwwDir%, %webLoader%)

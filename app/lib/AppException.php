@@ -12,6 +12,7 @@ use Throwable;
 class AppException extends \Exception
 {
 	const
+		WEBLOADER_ERROR = 4,
 		HELPERS_GENERAL_ERROR = 5;
 
 	const

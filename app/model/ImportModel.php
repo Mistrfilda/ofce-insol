@@ -11,6 +11,7 @@ use Dibi\DateTime;
 use Dibi\Exception;
 use Dibi\Fluent;
 use Nette\Utils\Strings;
+use Tracy\ILogger;
 
 
 class ImportModel extends BaseModel
@@ -25,7 +26,7 @@ class ImportModel extends BaseModel
 	 * For now hardcoded, possibility in future to set columns from config
 	 * @var array|string[]
 	 */
-	private	$personColumns = ['Rodné číslo', 'Ročník/Datum'];
+	private $personColumns = ['Rodné číslo', 'Ročník/Datum'];
 
 	/**
 	 * For now hardcoded, possibility in future to set columns from config
@@ -93,7 +94,7 @@ class ImportModel extends BaseModel
 					$this->validatePersonRow($person);
 				} catch (AppException $e) {
 					if ($e->getCode() === AppException::IMPORT_MISSING_MANDATORY_VALUE) {
-						$log['skipped_columns'][] = ['index' => $key + 2, 'message' => 'Chybi vyplnene povinne pole - ' . $e->getMessage()];
+						$log['skipped_columns'][] = ['index' => (int) $key + 2, 'message' => 'Chybi vyplnene povinne pole - ' . $e->getMessage()];
 						continue;
 					}
 
@@ -101,13 +102,13 @@ class ImportModel extends BaseModel
 				}
 
 				$inserts[] = [
-					'persons_birth_id'   => $person['Rodné číslo'],
-					'persons_year'       => $person['Ročník/Datum'],
-					'persons_company_id' => $person['IČ'],
-					'persons_firstname'  => $person['Jméno'],
-					'persons_lastname'   => $person['Příjmení/Název'],
+					'persons_birth_id'    => $person['Rodné číslo'],
+					'persons_year'        => $person['Ročník/Datum'],
+					'persons_company_id'  => $person['IČ'],
+					'persons_firstname'   => $person['Jméno'],
+					'persons_lastname'    => $person['Příjmení/Název'],
 					'persons_imported_on' => $this->datetimeProvider->getNow(),
-					'persons_imports_id' => $importId
+					'persons_imports_id'  => $importId,
 				];
 				$importedPersons++;
 			}
@@ -124,11 +125,11 @@ class ImportModel extends BaseModel
 			$log['imported_count'] = $importedPersons;
 
 			$log['import_id'] = $this->updateImportLog($importId, $log);
-			$this->logger->log('PERSON IMPORT', 'Import successfull, count of imported persons - ' . count($inserts));
+			$this->logger->log('PERSON IMPORT', sprintf('Import successfull, count of imported persons - %s', count($inserts)), ['count' => count($inserts)]);
 			return $log;
 		}
 
-		$this->logger->log('PERSON IMPORT', 'Import finished, 0 persons imported');
+		$this->logger->log('PERSON IMPORT', 'Import finished, 0 persons imported', ['count' => 0], ILogger::ERROR);
 		return $log;
 	}
 
@@ -157,8 +158,8 @@ class ImportModel extends BaseModel
 				foreach ($row as $key => $value) {
 					if ($value === "") {
 						$this->database->rollback();
-						$this->logger->log('INVOICE IMPORT', 'Missing mandatory value - ' . $key);
-						$log['skipped_columns'][] = ['index' => $rowIndex + 2, 'message' => 'Chybi vyplnene povinne pole - ' . $key];
+						$this->logger->log('INVOICE IMPORT', sprintf('Missing mandatory value %s', $key), ['key' => $key], ILogger::WARNING);
+						$log['skipped_columns'][] = ['index' => (int) $rowIndex + 2, 'message' => 'Chybi vyplnene povinne pole - ' . $key];
 						$validated = FALSE;
 						continue;
 					}
@@ -174,24 +175,24 @@ class ImportModel extends BaseModel
 					$this->validateInvoiceRow($row);
 				} catch (AppException $e) {
 					if ($e->getCode() === AppException::IMPORT_MISSING_MANDATORY_VALUE) {
-						$log['skipped_columns'][] = ['index' => $rowIndex + 2, 'message' => 'Chybi vyplnene povinne pole - ' . $e->getMessage()];
+						$log['skipped_columns'][] = ['index' => (int) $rowIndex + 2, 'message' => 'Chybi vyplnene povinne pole - ' . $e->getMessage()];
 						continue;
 					}
 
 					throw $e;
 				}
 
-				if ((int)array_key_exists($row['Číslo prac. smlouvy'], $currentInvoices)) {
-					$log['skipped_columns'][] = ['index' => $rowIndex + 2, 'message' => $row['Číslo prac. smlouvy'] . ' - tato smlouva jiz byla naimportovana'];
-					$this->logger->log('INVOICE IMPORT', 'Invoice already imported - ' . $row['Číslo prac. smlouvy'] . ' on line ' . $rowIndex);
+				if (array_key_exists((int) $row['Číslo prac. smlouvy'], $currentInvoices)) {
+					$log['skipped_columns'][] = ['index' => (int) $rowIndex + 2, 'message' => $row['Číslo prac. smlouvy'] . ' - tato smlouva jiz byla naimportovana'];
+					$this->logger->log('INVOICE IMPORT', sprintf('Invoice already imported - %s on line %s', $row['Číslo prac. smlouvy'], $rowIndex), ['row_index' => (int) $rowIndex, 'invoices_system_id' => $row['Číslo prac. smlouvy']], ILogger::WARNING);
 					continue;
 				}
 
 				$invoiceFrom = strtotime($row['Platnost od']);
 				if ($invoiceFrom === FALSE) {
 					$this->database->rollback();
-					$this->logger->log('INVOICE IMPORT', 'Unsupported date (invoice from) - ' . $row['Platnost od']);
-					$log['skipped_columns'][] = ['index' => $rowIndex + 2, 'message' => 'Nepodarilo se zpracovat datum: Planost od'];
+					$this->logger->log('INVOICE IMPORT', sprintf('Unsupported date (invoice from) %s', $row['Platnost od']), ['row_index' => (int) $rowIndex + 2, 'invoice_from' => $row['Platnost od']], ILogger::CRITICAL);
+					$log['skipped_columns'][] = ['index' => (int) $rowIndex + 2, 'message' => 'Nepodarilo se zpracovat datum: Planost od'];
 					continue;
 				}
 				$invoiceFrom = new DateTime($invoiceFrom);
@@ -199,39 +200,39 @@ class ImportModel extends BaseModel
 				$invoiceTo = strtotime($row['Platnost do']);
 				if ($invoiceTo === FALSE) {
 					$this->database->rollback();
-					$this->logger->log('INVOICE IMPORT', 'Unsupported date - (invoice to) ' . $row['Platnost do']);
-					$log['skipped_columns'][] = ['index' => $rowIndex + 2, 'message' => 'Nepodarilo se zpracovat datum: Planost do'];
+					$this->logger->log('INVOICE IMPORT', sprintf('Unsupported date - (invoice to) %s', $row['Platnost do']), ['row_index' => (int) $rowIndex + 2, 'invoice_to' => $row['Platnost do']], ILogger::CRITICAL);
+					$log['skipped_columns'][] = ['index' => (int) $rowIndex + 2, 'message' => 'Nepodarilo se zpracovat datum: Planost do'];
 					continue;
 				}
 				$invoiceTo = new DateTime($invoiceTo);
 
 				$this->database->query('INSERT into invoices', [
-					'invoices_persons_birth_id' => $row['Rodné číslo'],
-					'invoices_from' => $invoiceFrom,
-					'invoices_to' => $invoiceTo,
-					'invoices_imported_date' => $this->datetimeProvider->getNow(),
+					'invoices_persons_birth_id'  => $row['Rodné číslo'],
+					'invoices_from'              => $invoiceFrom,
+					'invoices_to'                => $invoiceTo,
+					'invoices_imported_date'     => $this->datetimeProvider->getNow(),
 					'invoices_persons_system_id' => $row['Id osoby'],
-					'invoices_type' => $row['Typ smlouvy'],
-					'invoices_system_id' => $row['Číslo prac. smlouvy'],
-					'invoices_imports_id' => $importId
+					'invoices_type'              => $row['Typ smlouvy'],
+					'invoices_system_id'         => $row['Číslo prac. smlouvy'],
+					'invoices_imports_id'        => $importId,
 				]);
 
 				$importedInvoices++;
 				$currentInvoices[$row['Číslo prac. smlouvy']] = $row['Číslo prac. smlouvy'];
 
 				$invoiceId = $this->database->getInsertId();
-				$this->personModel->updatePersonInvoice($row['Rodné číslo'], (int)$row['Id osoby'], $invoiceId, $invoiceTo);
+				$this->personModel->updatePersonInvoice($row['Rodné číslo'], (int) $row['Id osoby'], $invoiceId, $invoiceTo);
 			}
 			$this->database->commit();
 
 			$log['imported_count'] = $importedInvoices;
 			$log['import_id'] = $this->updateImportLog($importId, $log);
 
-			$this->logger->log('INVOICE IMPORT', 'Import successfull, count of imported invoices - ' . $importedInvoices);
+			$this->logger->log('INVOICE IMPORT', sprintf('Import successfull, count of imported invoices - %s', $importedInvoices), ['count' => $importedInvoices]);
 			return $log;
 		}
 
-		$this->logger->log('INVOICE IMPORT', 'Import finished, 0 invoices imported');
+		$this->logger->log('INVOICE IMPORT', 'Import finished, 0 invoices imported', ['count' => 0], ILogger::ERROR);
 		return $log;
 	}
 
@@ -239,9 +240,9 @@ class ImportModel extends BaseModel
 	private function insertImport(string $type) : int
 	{
 		$this->database->query('INSERT into imports', [
-			'imports_time' => $this->datetimeProvider->getNow(),
+			'imports_time'     => $this->datetimeProvider->getNow(),
 			'imports_users_id' => $this->user->getId(),
-			'imports_type' => $type,
+			'imports_type'     => $type,
 		]);
 
 		return $this->database->getInsertId();
@@ -253,7 +254,7 @@ class ImportModel extends BaseModel
 	 * @return int
 	 * @throws Exception
 	 */
-	private function updateImportLog(int $importId,array $log) : int
+	private function updateImportLog(int $importId, array $log) : int
 	{
 		$this->database->query('UPDATE imports set imports_log = %s', json_encode($log), 'where imports_id = %i', $importId);
 
@@ -271,7 +272,7 @@ class ImportModel extends BaseModel
 		foreach ($this->personColumns as $column) {
 			if (!array_key_exists($column, $row) || (array_key_exists($column, $row) && $row[$column] === NULL)) {
 				$this->database->rollback();
-				$this->logger->log('PERSON IMPORT', 'Missing mandatory value - ' . $column);
+				$this->logger->log('PERSON IMPORT', sprintf('Missing mandatory value - %s',$column), ['column' => $column], ILogger::CRITICAL);
 				throw new AppException(AppException::IMPORT_MISSING_MANDATORY_VALUE, $column);
 			}
 		}
@@ -290,7 +291,7 @@ class ImportModel extends BaseModel
 		foreach ($this->invoiceColumns as $column) {
 			if (!array_key_exists($column, $row)) {
 				$this->database->rollback();
-				$this->logger->log('INVOICE IMPORT', 'Missing mandatory value - ' . $column);
+				$this->logger->log('INVOICE IMPORT', sprintf('Missing mandatory value - %s', $column), ['column' => $column], ILogger::CRITICAL);
 				throw new AppException(AppException::IMPORT_MISSING_MANDATORY_VALUE, $column);
 			}
 		}

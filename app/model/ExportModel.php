@@ -8,6 +8,7 @@ namespace App\Model;
 use App\Lib\AppException;
 use Dibi\Fluent;
 use Dibi\Row;
+use Tracy\ILogger;
 
 
 class ExportModel extends BaseModel
@@ -70,7 +71,7 @@ class ExportModel extends BaseModel
 		$this->logger->log('PERSON EXPORT', 'File successfully parsed');
 
 		if (count($data) < 0) {
-			$this->logger->log('PERSON EXPORT', '0 rows parsed');
+			$this->logger->log('PERSON EXPORT', '0 rows parsed', ['count' => 0], ILogger::ERROR);
 			throw new AppException(AppException::EXPORT_PERSONS_NO_ROWS);
 		}
 
@@ -87,7 +88,7 @@ class ExportModel extends BaseModel
 		foreach ($data as $key => $row) {
 			if (!array_key_exists('Rodné číslo', $row)) {
 				$this->database->rollback();
-				$this->logger->log('PERSON EXPORT', 'Missing mandatory value - Rodné číslo');
+				$this->logger->log('PERSON EXPORT', 'Missing mandatory value - Rodné číslo', ['column' => 'Rodné číslo'], ILogger::CRITICAL);
 				throw new AppException(AppException::EXPORT_PERSONS_MISSING_MANDATORY_VALUE, 'Rodné číslo');
 			}
 
@@ -114,7 +115,7 @@ class ExportModel extends BaseModel
 
 		$this->database->commit();
 
-		$this->logger->log('PERSON EXPORT', 'Export successful, count of exported persons - ' . count($inserts));
+		$this->logger->log('PERSON EXPORT', sprintf('Export successful, count of exported persons - %s',count($inserts)), ['count' => count($inserts)]);
 		return $exportsId;
 	}
 
