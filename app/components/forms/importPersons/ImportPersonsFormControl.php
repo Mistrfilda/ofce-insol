@@ -73,7 +73,7 @@ class ImportPersonsFormControl extends BaseForm
 			return;
 		}
 
-		if ($values['force_utf8']) {
+		if ($values['force_utf8'] === 1) {
 			try {
 				$fileContents = Helpers::convertToUtfFromWindows1250($fileContents);
 			} catch (AppException $e) {

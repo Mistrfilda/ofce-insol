@@ -53,7 +53,7 @@ class PersonModel extends BaseModel
 
 		$this->database->query('UPDATE persons set persons_actual_invoice_id = %i, persons_ag_id = %i where persons_birth_id = %s', $invoiceId, $personAgId, $personBirthId);
 
-		$this->logger->log('PERSON INVOICE UPDATE', 'Person: ' . $personBirthId . ', AgID: ' . $personAgId . ', InvoiceID: ' . $invoiceId);
+		$this->logger->log('PERSON INVOICE UPDATE', sprintf('Person: %s, AgID: %s, InvoiceID: %s' ,$personBirthId, $personAgId, $invoiceId), ['persons_birth_id' => $personBirthId, 'persons_ag_id' => $personAgId, 'invoices_id' => $invoiceId]);
 	}
 
 
@@ -99,6 +99,6 @@ class PersonModel extends BaseModel
 	{
 		$this->getPerson($personId);
 		$this->database->query('UPDATE persons set persons_checked = %i where persons_id = %i', $checked, $personId);
-		$this->logger->log('PERSON CHECK STATUS UPDATE', 'Person: ' . $personId . ', changed status to ' . $checked);
+		$this->logger->log('PERSON CHECK STATUS UPDATE', sprintf('Person: %s, changed status to %s' ,$personId, $checked), ['persons_id' => $personId, 'persons_checked' => $checked]);
 	}
 }
