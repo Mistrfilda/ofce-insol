@@ -11,6 +11,7 @@ use App\Lib\AppException;
 use App\Lib\Helpers;
 use App\Model\ImportModel;
 use Nette\Application\UI\Form;
+use Nette\Http\FileUpload;
 use Nette\Utils\ArrayHash;
 use Nette\Utils\Strings;
 
@@ -26,10 +27,14 @@ class ImportPersonsFormControl extends BaseForm
 	/** @var ImportModel */
 	private $importModel;
 
-	public function __construct(ImportModel $importModel)
+	/** @var string */
+	private $logDir;
+
+	public function __construct(string $logDir, ImportModel $importModel)
 	{
 		parent::__construct();
 		$this->importModel = $importModel;
+		$this->logDir = $logDir;
 	}
 
 	public function render() : void
@@ -65,13 +70,17 @@ class ImportPersonsFormControl extends BaseForm
 
 	public function importPersonsFormSucceed(Form $form, ArrayHash $values) : void
 	{
-		$fileContents = @file_get_contents($values['file']->getTemporaryFile());
+		/** @var FileUpload $file */
+		$file = $values['file'];
 
+		$fileContents = @file_get_contents($file->getTemporaryFile());
 		if ($fileContents === FALSE) {
 			$form->addError('Nepodarilo se nahrat soubor, zkuste to prosim znovu!');
 			$this->presenter->flashMessage('Nepodarilo se nahrat soubor, zkuste to prosim znovu!', 'danger');
 			return;
 		}
+
+		$file->move(sprintf('%s/%s-%s', $this->logDir, uniqid(), $file->getName()));
 
 		if ($values['force_utf8'] === 1) {
 			try {

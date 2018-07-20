@@ -1,7 +1,7 @@
 #VERSION 0.2
 
 parameters:
-
+	fileLogDir: %tempDir%
 
 includes:
 	- assets.neon
@@ -59,9 +59,17 @@ services:
 
 	##FORMS
 	- App\Components\Forms\Login\LoginFormControlFactory
-	- App\Components\Forms\ImportPersons\ImportPersonsFormControlFactory
+
+	-
+		implement: App\Components\Forms\ImportPersons\ImportPersonsFormControlFactory
+		arguments: [%fileLogDir%]
+
 	- App\Components\Forms\ExportPersons\ExportPersonsFormControlFactory
-	- App\Components\Forms\ImportPersonsInvoices\ImportPersonInvoicesFormControlFactory
+
+	-
+		implement: App\Components\Forms\ImportPersonsInvoices\ImportPersonInvoicesFormControlFactory
+		arguments: [%fileLogDir%]
+
 	- App\Components\Forms\User\EditUserFormControlFactory
 
 	##GRID
