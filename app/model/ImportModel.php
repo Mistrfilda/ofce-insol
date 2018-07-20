@@ -98,6 +98,7 @@ class ImportModel extends BaseModel
 						continue;
 					}
 
+					$this->database->rollback();
 					throw $e;
 				}
 
@@ -157,7 +158,6 @@ class ImportModel extends BaseModel
 				$validated = TRUE;
 				foreach ($row as $key => $value) {
 					if ($value === "") {
-						$this->database->rollback();
 						$this->logger->log('INVOICE IMPORT', sprintf('Missing mandatory value %s', $key), ['key' => $key], ILogger::WARNING);
 						$log['skipped_columns'][] = ['index' => (int) $rowIndex + 2, 'message' => 'Chybi vyplnene povinne pole - ' . $key];
 						$validated = FALSE;
@@ -179,6 +179,7 @@ class ImportModel extends BaseModel
 						continue;
 					}
 
+					$this->database->rollback();
 					throw $e;
 				}
 
@@ -190,7 +191,6 @@ class ImportModel extends BaseModel
 
 				$invoiceFrom = strtotime($row['Platnost od']);
 				if ($invoiceFrom === FALSE) {
-					$this->database->rollback();
 					$this->logger->log('INVOICE IMPORT', sprintf('Unsupported date (invoice from) %s', $row['Platnost od']), ['row_index' => (int) $rowIndex + 2, 'invoice_from' => $row['Platnost od']], ILogger::CRITICAL);
 					$log['skipped_columns'][] = ['index' => (int) $rowIndex + 2, 'message' => 'Nepodarilo se zpracovat datum: Planost od'];
 					continue;
@@ -199,7 +199,6 @@ class ImportModel extends BaseModel
 
 				$invoiceTo = strtotime($row['Platnost do']);
 				if ($invoiceTo === FALSE) {
-					$this->database->rollback();
 					$this->logger->log('INVOICE IMPORT', sprintf('Unsupported date - (invoice to) %s', $row['Platnost do']), ['row_index' => (int) $rowIndex + 2, 'invoice_to' => $row['Platnost do']], ILogger::CRITICAL);
 					$log['skipped_columns'][] = ['index' => (int) $rowIndex + 2, 'message' => 'Nepodarilo se zpracovat datum: Planost do'];
 					continue;
@@ -271,7 +270,6 @@ class ImportModel extends BaseModel
 	{
 		foreach ($this->personColumns as $column) {
 			if (!array_key_exists($column, $row) || (array_key_exists($column, $row) && $row[$column] === NULL)) {
-				$this->database->rollback();
 				$this->logger->log('PERSON IMPORT', sprintf('Missing mandatory value - %s',$column), ['column' => $column], ILogger::CRITICAL);
 				throw new AppException(AppException::IMPORT_MISSING_MANDATORY_VALUE, $column);
 			}
@@ -290,7 +288,6 @@ class ImportModel extends BaseModel
 	{
 		foreach ($this->invoiceColumns as $column) {
 			if (!array_key_exists($column, $row)) {
-				$this->database->rollback();
 				$this->logger->log('INVOICE IMPORT', sprintf('Missing mandatory value - %s', $column), ['column' => $column], ILogger::CRITICAL);
 				throw new AppException(AppException::IMPORT_MISSING_MANDATORY_VALUE, $column);
 			}
