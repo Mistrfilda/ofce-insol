@@ -32,7 +32,7 @@ class ImportModel extends BaseModel
 	 * For now hardcoded, possibility in future to set columns from config
 	 * @var array|string[]
 	 */
-	private $invoiceColumns = ['Číslo prac. smlouvy', 'Id osoby', 'Rodné číslo', 'Platnost od', 'Typ smlouvy', 'Platnost do'];
+	private $invoiceColumns = ['Číslo prac. smlouvy', 'Id osoby', 'Jméno osoby', 'Rodné číslo', 'Platnost od', 'Typ smlouvy', 'Platnost do'];
 
 	public function __construct(PersonModel $personModel, InvoiceModel $invoiceModel)
 	{
@@ -214,6 +214,7 @@ class ImportModel extends BaseModel
 					'invoices_type'              => $row['Typ smlouvy'],
 					'invoices_system_id'         => $row['Číslo prac. smlouvy'],
 					'invoices_imports_id'        => $importId,
+					'invoices_person_name'       => $row['Jméno osoby']
 				]);
 
 				$importedInvoices++;

@@ -1,0 +1,1 @@
+ALTER TABLE `invoices` ADD COLUMN `invoices_person_name` VARCHAR(255) NULL DEFAULT NULL;
