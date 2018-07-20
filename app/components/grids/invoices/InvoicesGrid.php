@@ -44,6 +44,7 @@ class InvoicesGrid extends BaseGrid
 		$grid->setOuterFilterRendering(TRUE);
 		$grid->setAutoSubmit(FALSE);
 		$grid->addExportCsvFiltered('Export do csv', 'smlouvy-export-' . date('Y-m-d-H-i-s') . 'csv');
+		$grid->setRememberState(FALSE);
 		return $grid;
 	}
 }
