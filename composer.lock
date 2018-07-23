@@ -2633,16 +2633,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "0.10.1",
+            "version": "0.10.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "3179cf27542e9e47acb548150e7ca21ca5ab92d6"
+                "reference": "d69658794514e57ad9f247e623513397038f362f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/3179cf27542e9e47acb548150e7ca21ca5ab92d6",
-                "reference": "3179cf27542e9e47acb548150e7ca21ca5ab92d6",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/d69658794514e57ad9f247e623513397038f362f",
+                "reference": "d69658794514e57ad9f247e623513397038f362f",
                 "shasum": ""
             },
             "require": {
@@ -2667,6 +2667,7 @@
                 "ext-mysqli": "*",
                 "ext-zip": "*",
                 "jakub-onderka/php-parallel-lint": "^1.0",
+                "localheinz/composer-normalize": "~0.8.0",
                 "phing/phing": "^2.16.0",
                 "phpstan/phpstan-deprecation-rules": "^0.10.2",
                 "phpstan/phpstan-php-parser": "^0.10",
@@ -2697,26 +2698,26 @@
                 "MIT"
             ],
             "description": "PHPStan - PHP Static Analysis Tool",
-            "time": "2018-07-01T18:22:12+00:00"
+            "time": "2018-07-22T17:55:11+00:00"
         },
         {
             "name": "phpstan/phpstan-nette",
-            "version": "0.10",
+            "version": "0.10.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan-nette.git",
-                "reference": "1a8acd177c3cbf7c55005054e7a1284954a41236"
+                "reference": "ed77cc1b73319d1b866f83eb582e963da7bf59e1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan-nette/zipball/1a8acd177c3cbf7c55005054e7a1284954a41236",
-                "reference": "1a8acd177c3cbf7c55005054e7a1284954a41236",
+                "url": "https://api.github.com/repos/phpstan/phpstan-nette/zipball/ed77cc1b73319d1b866f83eb582e963da7bf59e1",
+                "reference": "ed77cc1b73319d1b866f83eb582e963da7bf59e1",
                 "shasum": ""
             },
             "require": {
                 "nikic/php-parser": "^4.0",
                 "php": "~7.1",
-                "phpstan/phpstan": "^0.10"
+                "phpstan/phpstan": "^0.10.2"
             },
             "conflict": {
                 "nette/application": "<2.3.0",
@@ -2760,20 +2761,20 @@
                 "MIT"
             ],
             "description": "Nette Framework class reflection extension for PHPStan",
-            "time": "2018-05-29T20:53:48+00:00"
+            "time": "2018-07-10T21:28:40+00:00"
         },
         {
             "name": "phpstan/phpstan-strict-rules",
-            "version": "0.10",
+            "version": "0.10.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan-strict-rules.git",
-                "reference": "bffdf03fc70602833936dccf6c2eb3be58ed78d6"
+                "reference": "18c0b6e8899606b127c680402ab473a7b67166db"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan-strict-rules/zipball/bffdf03fc70602833936dccf6c2eb3be58ed78d6",
-                "reference": "bffdf03fc70602833936dccf6c2eb3be58ed78d6",
+                "url": "https://api.github.com/repos/phpstan/phpstan-strict-rules/zipball/18c0b6e8899606b127c680402ab473a7b67166db",
+                "reference": "18c0b6e8899606b127c680402ab473a7b67166db",
                 "shasum": ""
             },
             "require": {
@@ -2806,7 +2807,7 @@
                 "MIT"
             ],
             "description": "Extra strict and opinionated rules for PHPStan",
-            "time": "2018-06-22T18:09:47+00:00"
+            "time": "2018-07-06T20:36:44+00:00"
         },
         {
             "name": "slevomat/coding-standard",
