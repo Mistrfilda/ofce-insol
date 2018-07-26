@@ -114,6 +114,8 @@ class PersonModel extends BaseModel
 			$updatedInvoices = $updatedInvoices + 1;
 		}
 
+		$this->database->query('UPDATE persons set persons_invoices_checked = %i where persons_invoices_checked = %i', 1, 0);
+
 		return $updatedInvoices;
 	}
 }
