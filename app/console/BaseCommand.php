@@ -30,7 +30,7 @@ class BaseCommand extends Command
 	}
 
 	/**
-	 * @param array|mixed[] $cliCredentials
+	 * @param array|mixed[]|null $cliCredentials
 	 * @throws \Dibi\Exception
 	 * @throws \Nette\Security\AuthenticationException
 	 */
