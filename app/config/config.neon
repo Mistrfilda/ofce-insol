@@ -3,6 +3,8 @@
 parameters:
 	fileLogDir: %tempDir%
 
+	cliCredentials: []
+
 includes:
 	- assets.neon
 
@@ -28,6 +30,10 @@ decorator:
 	App\Components\Forms\BaseForm:
 		inject: on
 	App\Presenters\BasePresenter:
+		inject: on
+	App\Console\BaseCommand:
+		setup:
+			- setCliUser(%cliCredentials%)
 		inject: on
 
 migrations:
@@ -89,3 +95,4 @@ services:
 
 	##CONSOLE
 	- App\Console\WebloaderCommand(%wwwDir%, %webLoader%)
+	- App\Console\ProcessNewPersonsCommand
