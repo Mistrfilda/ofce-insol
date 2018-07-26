@@ -34,10 +34,12 @@ class BaseCommand extends Command
 	 * @throws \Dibi\Exception
 	 * @throws \Nette\Security\AuthenticationException
 	 */
-	public function setCliUser(array $cliCredentials) : void
+	public function setCliUser(?array $cliCredentials) : void
 	{
-		$this->user->login($cliCredentials['user'], $cliCredentials['password']);
-		$this->user->setExpiration('30 minutes');
-		$this->logger->log('Login', 'Cli login');
+		if ($cliCredentials !== NULL) {
+			$this->user->login($cliCredentials['user'], $cliCredentials['password']);
+			$this->user->setExpiration('30 minutes');
+			$this->logger->log('Login', 'Cli login');
+		}
 	}
 }

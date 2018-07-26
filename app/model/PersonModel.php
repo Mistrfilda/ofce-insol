@@ -104,8 +104,9 @@ class PersonModel extends BaseModel
 
 	public function processNewPersonsInvoices() : int
 	{
-		$newPersonsBirthIds = array_keys($this->database->query('SELECT * from persons where persons_invoices_checked = %i limit 10000', 0)->fetchPairs('persons_birth_id', 'persons_birth_id'));
+		$newPersonsBirthIds = array_keys($this->database->query('SELECT * from persons where persons_invoices_checked = %i', 0)->fetchPairs('persons_birth_id', 'persons_birth_id'));
 		$personsInvoices = $this->database->query('SELECT * from invoices where invoices_persons_birth_id in %in', $newPersonsBirthIds)->fetchAll();
+		$this->logger->log('PROCESS PERSONS COMMAND', 'FETCH DATA', ['personsCount' => count($newPersonsBirthIds), 'invoicesCount' => count($personsInvoices)]);
 
 		$updatedInvoices = 0;
 		foreach ($personsInvoices as $invoice) {

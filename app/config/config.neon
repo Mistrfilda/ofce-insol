@@ -3,7 +3,7 @@
 parameters:
 	fileLogDir: %tempDir%
 
-	cliCredentials: []
+	cliCredentials:
 
 includes:
 	- assets.neon
