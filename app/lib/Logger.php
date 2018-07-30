@@ -32,6 +32,7 @@ class Logger
 		$this->user = $user;
 		$this->monologLogger = $monologLogger;
 		$this->datetimeProvider = $datetimeProvider;
+		$monologLogger->pushHandler(MonologConsoleHandler::getMonologConsoleHandler());
 	}
 
 	/**
