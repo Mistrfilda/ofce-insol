@@ -36,7 +36,7 @@ class BaseCommand extends Command
 	 */
 	public function setCliUser(?array $cliCredentials) : void
 	{
-		if ($cliCredentials !== NULL) {
+		if ($cliCredentials !== NULL && !$this->user->isLoggedIn()) {
 			$this->user->login($cliCredentials['user'], $cliCredentials['password']);
 			$this->user->setExpiration('30 minutes');
 			$this->logger->log('Login', 'Cli login');
