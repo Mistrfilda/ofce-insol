@@ -101,4 +101,21 @@ class PersonModel extends BaseModel
 		$this->database->query('UPDATE persons set persons_checked = %i where persons_id = %i', $checked, $personId);
 		$this->logger->log('PERSON CHECK STATUS UPDATE', sprintf('Person: %s, changed status to %s' ,$personId, $checked), ['persons_id' => $personId, 'persons_checked' => $checked]);
 	}
+
+	public function processNewPersonsInvoices() : int
+	{
+		$newPersonsBirthIds = array_keys($this->database->query('SELECT * from persons where persons_invoices_checked = %i', 0)->fetchPairs('persons_birth_id', 'persons_birth_id'));
+		$personsInvoices = $this->database->query('SELECT * from invoices where invoices_persons_birth_id in %in', $newPersonsBirthIds)->fetchAll();
+		$this->logger->log('PROCESS PERSONS COMMAND', 'FETCH DATA', ['personsCount' => count($newPersonsBirthIds), 'invoicesCount' => count($personsInvoices)]);
+
+		$updatedInvoices = 0;
+		foreach ($personsInvoices as $invoice) {
+			$this->updatePersonInvoice($invoice['invoices_persons_birth_id'], $invoice['invoices_persons_system_id'], $invoice['invoices_id'], $invoice['invoices_to']);
+			$updatedInvoices = $updatedInvoices + 1;
+		}
+
+		$this->database->query('UPDATE persons set persons_invoices_checked = %i where persons_invoices_checked = %i', 1, 0);
+
+		return $updatedInvoices;
+	}
 }
